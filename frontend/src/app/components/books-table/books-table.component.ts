@@ -44,7 +44,6 @@ export class BooksTableComponent implements AfterViewInit {
           this.bookService.getBooks({ pageIndex: this.paginator.pageIndex })
         ),
         map((page) => {
-          console.log(page);
           this.booksCount = page.totalElements;
           return page.content;
         })

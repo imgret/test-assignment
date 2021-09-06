@@ -6,8 +6,7 @@
         <ng-container matColumnDef="title">
           <th mat-header-cell *matHeaderCellDef>Title</th>
           <td mat-cell *matCellDef="let book">
-            <!-- TODO: make links styling more appropriate; maybe make so that whole table row on click redirects to book details -->
-            <a [routerLink]="['/books', book.id]">
+            <a [routerLink]="['/books', book.id]" class="link">
               {{ book.title }}
             </a>
           </td>
