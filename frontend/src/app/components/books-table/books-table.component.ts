@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { BookService } from '../../services/book.service';
-import { Observable } from 'rxjs';
-import { Page } from '../../models/page';
+import { merge, Observable, Subject } from 'rxjs';
 import { Book } from '../../models/book';
+import { DataSource } from '@angular/cdk/collections';
+import { MatPaginator } from '@angular/material/paginator';
+import { map, startWith, switchMap } from 'rxjs/operators';
 
 /**
  * Books table component
@@ -14,14 +16,59 @@ import { Book } from '../../models/book';
   templateUrl: './books-table.component.html',
   styleUrls: ['./books-table.component.scss'],
 })
-export class BooksTableComponent implements OnInit {
-  books$: Observable<Page<Book> | Error>;
-  displayedColumns = ['title', 'author', 'year', 'genre', 'status'];
+export class BooksTableComponent implements AfterViewInit {
+  dataSource: BooksDataSource = new BooksDataSource([]);
+  displayedColumns: string[] = ['title', 'author', 'year', 'genre', 'status'];
+  booksCount: number = 0;
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private bookService: BookService) {}
 
-  ngOnInit(): void {
+  // Reference: https://material.angular.io/components/table/examples#table-http
+  // I haven't used rxjs before, however data stream approach is interesting and somewhat hard at the same time
+  // ###### How to update table on pagination's page change
+  // Here we look after table's page change (observable) and
+  // then map it to observable from bookService's getBooks request
+  // (switchMap cancels previous observable subscription and opens new on each emission,
+  // so in case of fast pages changing only response of last request to the bookService will be processed,
+  // because subscription to previous requests' observables will be cancelled before new subscription registering) and
+  // map each emitted values from Observable<Page<Book>> to books list and
+  // at the end subscribe to created observable to update data source of table
+  ngAfterViewInit(): void {
     // TODO this observable should emit books taking into consideration pagination, sorting and filtering options.
-    this.books$ = this.bookService.getBooks({});
+    merge(this.paginator.page)
+      .pipe(
+        startWith({}),
+        switchMap(() =>
+          this.bookService.getBooks({ pageIndex: this.paginator.pageIndex })
+        ),
+        map((page) => {
+          console.log(page);
+          this.booksCount = page.totalElements;
+          return page.content;
+        })
+      )
+      .subscribe((books) => this.dataSource.setData(books));
+  }
+}
+
+// Reference https://material.angular.io/components/table/examples#table-dynamic-observable-data
+class BooksDataSource extends DataSource<Book> {
+  private _dataStream = new Subject<Book[]>();
+
+  constructor(initialData: Book[]) {
+    super();
+    this.setData(initialData);
+  }
+
+  connect(): Observable<Book[]> {
+    return this._dataStream;
+  }
+
+  disconnect() {}
+
+  setData(data: Book[]) {
+    this._dataStream.next(data);
   }
 }
