@@ -1,10 +1,11 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { BookService } from '../../services/book.service';
-import { merge, Observable, Subject } from 'rxjs';
-import { Book } from '../../models/book';
 import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { merge, Observable, Subject } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
+import { Book } from '../../models/book';
+import { BookService } from '../../services/book.service';
 
 /**
  * Books table component
@@ -22,9 +23,11 @@ export class BooksTableComponent implements AfterViewInit {
   booksCount: number = 0;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(private bookService: BookService) {}
 
+  // TODO add sorting alongside pagination; add loading state to table
   // Reference: https://material.angular.io/components/table/examples#table-http
   // I haven't used rxjs before, however data stream approach is interesting and somewhat hard at the same time
   // ###### How to update table on pagination's page change
@@ -35,13 +38,19 @@ export class BooksTableComponent implements AfterViewInit {
   // because subscription to previous requests' observables will be cancelled before new subscription registering) and
   // map each emitted values from Observable<Page<Book>> to books list and
   // at the end subscribe to created observable to update data source of table
+  // ###### How to track pagination and sort changes simultaneously
+  // Use merge to combine multiple observables into one observable
   ngAfterViewInit(): void {
     // TODO this observable should emit books taking into consideration pagination, sorting and filtering options.
-    merge(this.paginator.page)
+    merge(this.paginator.page, this.sort.sortChange)
       .pipe(
         startWith({}),
         switchMap(() =>
-          this.bookService.getBooks({ pageIndex: this.paginator.pageIndex })
+          this.bookService.getBooks({
+            pageIndex: this.paginator.pageIndex,
+            sort: this.sort.active,
+            direction: this.sort.direction,
+          })
         ),
         map((page) => {
           this.booksCount = page.totalElements;
