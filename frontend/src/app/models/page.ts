@@ -16,6 +16,5 @@ export interface Page<T> {
 export interface PageRequest {
   pageIndex: number;
   pageSize: number;
-  sort?: string;
-  direction?: SortDirection;
+  sort?: { column: string; direction: SortDirection }[];
 }

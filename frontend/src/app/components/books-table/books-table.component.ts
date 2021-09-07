@@ -27,7 +27,7 @@ export class BooksTableComponent implements AfterViewInit {
 
   constructor(private bookService: BookService) {}
 
-  // TODO add sorting alongside pagination; add loading state to table
+  // TODO add loading state to table
   // Reference: https://material.angular.io/components/table/examples#table-http
   // I haven't used rxjs before, however data stream approach is interesting and somewhat hard at the same time
   // ###### How to update table on pagination's page change
@@ -48,8 +48,9 @@ export class BooksTableComponent implements AfterViewInit {
         switchMap(() =>
           this.bookService.getBooks({
             pageIndex: this.paginator.pageIndex,
-            sort: this.sort.active,
-            direction: this.sort.direction,
+            sort: [
+              { column: this.sort.active, direction: this.sort.direction },
+            ],
           })
         ),
         map((page) => {

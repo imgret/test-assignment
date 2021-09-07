@@ -2,8 +2,10 @@ import { HttpParams } from '@angular/common/http';
 import { PageRequest } from '../models/page';
 
 export class RestUtil {
-  public static buildParamsFromPageRequest(filter: Partial<PageRequest>): HttpParams {
-    const {pageIndex, pageSize, sort, direction} = filter;
+  public static buildParamsFromPageRequest(
+    filter: Partial<PageRequest>
+  ): HttpParams {
+    const { pageIndex, pageSize, sort } = filter;
     // using let and reassigning params, because httpParams is immutable, so .set() returns new object.
     let params = new HttpParams();
     if (pageIndex != null) {
@@ -13,7 +15,12 @@ export class RestUtil {
       params = params.set('size', String(pageSize));
     }
     if (sort != null) {
-      params = params.set('sort', sort + ',' + direction ?? '');
+      // process list of columns to sort and if column is undefined then skip it
+      sort.forEach(
+        ({ column, direction }) =>
+          column &&
+          (params = params.set('sort', column + ',' + direction ?? ''))
+      );
     }
     return params;
   }
