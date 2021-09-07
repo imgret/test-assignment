@@ -18,7 +18,14 @@
       >
         <!-- Title column -->
         <ng-container matColumnDef="title">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="title-column"
+          >
+            Title
+          </th>
           <td mat-cell *matCellDef="let book">
             <a [routerLink]="['/books', book.id]" class="link">
               {{ book.title }}
@@ -28,13 +35,27 @@
 
         <!-- Author column -->
         <ng-container matColumnDef="author">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Author</th>
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="author-column"
+          >
+            Author
+          </th>
           <td mat-cell *matCellDef="let book">{{ book.author }}</td>
         </ng-container>
 
         <!-- Year column -->
         <ng-container matColumnDef="year">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Year</th>
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="year-column"
+          >
+            Year
+          </th>
           <td mat-cell *matCellDef="let book">{{ book.year }}</td>
         </ng-container>
 
@@ -46,7 +67,14 @@
 
         <!-- Status column -->
         <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="status-column"
+          >
+            Status
+          </th>
           <td mat-cell *matCellDef="let book">{{ book.status }}</td>
         </ng-container>
 
