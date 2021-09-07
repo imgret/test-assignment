@@ -1,15 +1,90 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { DataSource } from '@angular/cdk/collections';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { merge, Observable, Subject } from 'rxjs';
+import { Checkout } from 'src/app/models/checkout';
+import { CheckoutService } from 'src/app/services/checkout.service';
+import { map, startWith, switchMap } from 'rxjs/operators';
+import { PageRequest } from 'src/app/models/page';
 
+/**
+ * Checkouts table component
+ *
+ * Very similar to BooksTableComponent. Only small adoption of functionality was required.
+ * Like checkout multiple fields sorting in one request.
+ */
 @Component({
   selector: 'app-checkouts-table',
   templateUrl: './checkouts-table.component.html',
-  styleUrls: ['./checkouts-table.component.scss']
+  styleUrls: ['./checkouts-table.component.scss'],
 })
-export class CheckoutsTableComponent implements OnInit {
+export class CheckoutsTableComponent implements AfterViewInit {
+  dataSource: CheckoutsDataSource = new CheckoutsDataSource([]);
+  displayedColumns: string[] = [
+    'borrowedBookTitle',
+    'borrowedBookAuthor',
+    'borrower',
+    'checkedOutDate',
+    'dueDate',
+    'returnedDate',
+  ];
+  checkoutsCount: number = 0;
 
-  constructor() { }
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
-  ngOnInit(): void {
+  constructor(private checkoutService: CheckoutService) {}
+
+  ngAfterViewInit(): void {
+    // TODO reset page to 0 when sorting changes
+    merge(this.paginator.page, this.sort.sortChange)
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          let sort: PageRequest['sort'];
+          // multiple checkout fields sorting is used
+          // because 'borrower' is the column composed from two fields of checkout (borrowerFirstName, borrowerLastName)
+          if (this.sort.active === 'borrower') {
+            sort = [
+              { column: 'borrowerFirstName', direction: this.sort.direction },
+              { column: 'borrowerLastName', direction: this.sort.direction },
+            ];
+          } else {
+            sort = [
+              { column: this.sort.active, direction: this.sort.direction },
+            ];
+          }
+          return this.checkoutService.getCheckouts({
+            pageIndex: this.paginator.pageIndex,
+            sort,
+          });
+        }),
+        map((page) => {
+          this.checkoutsCount = page.totalElements;
+          return page.content;
+        })
+      )
+      .subscribe((checkouts) => this.dataSource.setData(checkouts));
+  }
+}
+
+// Reference https://material.angular.io/components/table/examples#table-dynamic-observable-data
+class CheckoutsDataSource extends DataSource<Checkout> {
+  private _dataStream = new Subject<Checkout[]>();
+
+  constructor(initialData: Checkout[]) {
+    super();
+    this.setData(initialData);
   }
 
+  connect(): Observable<Checkout[]> {
+    return this._dataStream;
+  }
+
+  disconnect() {}
+
+  setData(data: Checkout[]) {
+    this._dataStream.next(data);
+  }
 }
