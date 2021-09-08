@@ -20,6 +20,8 @@ table {
   width: 100%;
 }
 
+// Use already created by material table classes to set columns width and rows' behavior on hover
+// This is convenient because there is no need to directly add custom classes in html markup
 .mat-column-title {
   width: 40%;
 }

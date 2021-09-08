@@ -19,6 +19,7 @@ import { PageRequest } from 'src/app/models/page';
   templateUrl: './checkouts-table.component.html',
   styleUrls: ['./checkouts-table.component.scss'],
 })
+// TODO create checkout details view and add navigation from table to details view
 export class CheckoutsTableComponent implements AfterViewInit {
   dataSource: CheckoutsDataSource = new CheckoutsDataSource([]);
   displayedColumns: string[] = [

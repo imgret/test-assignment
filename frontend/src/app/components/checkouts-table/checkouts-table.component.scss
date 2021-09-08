@@ -19,3 +19,29 @@
 table {
   width: 100%;
 }
+
+// Use already created by material table classes to set columns width
+// This is convenient because there is no need to directly add custom classes in html markup
+.mat-column-borrowedBookTitle {
+  width: 35%;
+}
+
+.mat-column-borrowedBookAuthor {
+  width: 17.5%;
+}
+
+.mat-column-borrower {
+  width: 17.5%;
+}
+
+.mat-column-checkedOutDate {
+  width: 10%;
+}
+
+.mat-column-dueDate {
+  width: 10%;
+}
+
+.mat-column-returnedDate {
+  width: 10%;
+}
