@@ -2,11 +2,12 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { Router } from '@angular/router';
 import { merge, Observable, Subject } from 'rxjs';
-import { Checkout } from 'src/app/models/checkout';
-import { CheckoutService } from 'src/app/services/checkout.service';
 import { map, startWith, switchMap } from 'rxjs/operators';
+import { Checkout } from 'src/app/models/checkout';
 import { PageRequest } from 'src/app/models/page';
+import { CheckoutService } from 'src/app/services/checkout.service';
 
 /**
  * Checkouts table component
@@ -36,7 +37,10 @@ export class CheckoutsTableComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private checkoutService: CheckoutService) {}
+  constructor(
+    private checkoutService: CheckoutService,
+    private router: Router
+  ) {}
 
   ngAfterViewInit(): void {
     // Rollback to first page on sorting change
@@ -73,6 +77,10 @@ export class CheckoutsTableComponent implements AfterViewInit {
         })
       )
       .subscribe((checkouts) => this.dataSource.setData(checkouts));
+  }
+
+  openCheckoutDetails(checkoutId: string) {
+    this.router.navigate(['/checkouts', checkoutId]);
   }
 }
 

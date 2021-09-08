@@ -21,7 +21,7 @@ table {
   min-height: 75vh;
 }
 
-// Use already created by material table classes to set columns width
+// Use already created by material table classes
 // This is convenient because there is no need to directly add custom classes in html markup
 .mat-column-borrowedBookTitle {
   width: 35%;
@@ -45,4 +45,10 @@ table {
 
 .mat-column-returnedDate {
   width: 10%;
+}
+
+.mat-row:hover {
+  cursor: pointer;
+  background-color: rgb(0 0 0 / 0.1);
+  transition: background-color 200ms ease-out;
 }
