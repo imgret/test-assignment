@@ -1,1 +1,12 @@
-<pre>{{book$ | async | json}}</pre>
+<!-- TODO add loading spinner if book is falsy -->
+<mat-card class="card mat-elevation-z4" *ngIf="book$ | async as book">
+  <mat-card-title>{{ book.title }}</mat-card-title>
+  <mat-card-content class="card__content">
+    <ng-container *ngFor="let item of book | keyvalue">
+      <!-- TODO add custom order of properties: id, title, author, year, genre, added, checkOutCount, status, dueDate, comment -->
+      <!-- TODO style grid -->
+      <div>{{ item.key }}</div>
+      <div>{{ item.value }}</div>
+    </ng-container>
+  </mat-card-content>
+</mat-card>
