@@ -1,11 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
-
-// height: 100% may cause some issues https://greggod.medium.com/css-do-not-put-height-100-on-the-body-html-e36bda3551b3
-// TODO: figure out how material components will work with {min-height: 100vh} instead of {height: 100%}
 html,
 body {
   height: 100%;
 }
+
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;

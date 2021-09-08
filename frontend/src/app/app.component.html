@@ -6,3 +6,9 @@
 
 <!-- Body -->
 <router-outlet></router-outlet>
+
+<!-- Due to height: 100% in html and body tags, required by material
+     bottom margin in component rendered by router-outlet was not shown.
+     This workaround helps to show mentioned bottom margin.
+-->
+<div style="height: 1px; margin-top: -1px"></div>
