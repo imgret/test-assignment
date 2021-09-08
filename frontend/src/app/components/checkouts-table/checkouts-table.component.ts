@@ -30,6 +30,7 @@ export class CheckoutsTableComponent implements AfterViewInit {
     'returnedDate',
   ];
   checkoutsCount: number = 0;
+  isLoadingCheckouts = true;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -58,12 +59,14 @@ export class CheckoutsTableComponent implements AfterViewInit {
               { column: this.sort.active, direction: this.sort.direction },
             ];
           }
+          this.isLoadingCheckouts = true;
           return this.checkoutService.getCheckouts({
             pageIndex: this.paginator.pageIndex,
             sort,
           });
         }),
         map((page) => {
+          this.isLoadingCheckouts = false;
           this.checkoutsCount = page.totalElements;
           return page.content;
         })

@@ -1,8 +1,21 @@
-table {
-  width: 100%;
-}
-
-.container {
+.card {
   max-width: 1024px;
   margin: 2em auto;
+}
+
+.card__content {
+  position: relative;
+}
+
+.modal-spinner {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+table {
+  width: 100%;
 }
