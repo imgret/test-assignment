@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { Router } from '@angular/router';
 import { merge, Observable, Subject } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
 import { Book } from '../../models/book';
@@ -26,7 +27,7 @@ export class BooksTableComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private bookService: BookService) {}
+  constructor(private bookService: BookService, private router: Router) {}
 
   // Reference: https://material.angular.io/components/table/examples#table-http
   // I haven't used rxjs before, however data stream approach is interesting and somewhat hard at the same time
@@ -65,6 +66,10 @@ export class BooksTableComponent implements AfterViewInit {
         })
       )
       .subscribe((books) => this.dataSource.setData(books));
+  }
+
+  openBookDetails(bookId: string) {
+    this.router.navigate(['/books', bookId]);
   }
 }
 

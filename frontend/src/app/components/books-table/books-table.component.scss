@@ -20,33 +20,28 @@ table {
   width: 100%;
 }
 
-.link {
-  color: currentColor;
-  text-decoration: none;
-}
-
-.link:hover,
-.link:focus {
-  outline: none;
-  text-decoration: underline;
-}
-
-.title-column {
+.mat-column-title {
   width: 40%;
 }
 
-.author-column {
+.mat-column-author {
   width: 21%;
 }
 
-.year-column {
+.mat-column-year {
   width: 7%;
 }
 
-.genre-column {
+.mat-column-genre {
   width: 21%;
 }
 
-.status-column {
+.mat-column-status {
   width: 11%;
+}
+
+.mat-row:hover {
+  cursor: pointer;
+  background-color: rgb(0 0 0 / 0.1);
+  transition: background-color 200ms ease-out;
 }
