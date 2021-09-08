@@ -37,7 +37,10 @@ export class CheckoutsTableComponent implements AfterViewInit {
   constructor(private checkoutService: CheckoutService) {}
 
   ngAfterViewInit(): void {
-    // TODO reset page to 0 when sorting changes
+    // Rollback to first page on sorting change
+    this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+
+    // Get new page from checkoutService on sorting change or on navigation to next/previous page
     merge(this.paginator.page, this.sort.sortChange)
       .pipe(
         startWith({}),
