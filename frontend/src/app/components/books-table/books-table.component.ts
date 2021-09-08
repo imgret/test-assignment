@@ -21,13 +21,13 @@ export class BooksTableComponent implements AfterViewInit {
   dataSource: BooksDataSource = new BooksDataSource([]);
   displayedColumns: string[] = ['title', 'author', 'year', 'genre', 'status'];
   booksCount: number = 0;
+  isLoadingBooks: boolean = true;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(private bookService: BookService) {}
 
-  // TODO add loading state to table
   // Reference: https://material.angular.io/components/table/examples#table-http
   // I haven't used rxjs before, however data stream approach is interesting and somewhat hard at the same time
   // ###### How to update table on pagination's page change
@@ -49,15 +49,17 @@ export class BooksTableComponent implements AfterViewInit {
     merge(this.paginator.page, this.sort.sortChange)
       .pipe(
         startWith({}),
-        switchMap(() =>
-          this.bookService.getBooks({
+        switchMap(() => {
+          this.isLoadingBooks = true;
+          return this.bookService.getBooks({
             pageIndex: this.paginator.pageIndex,
             sort: [
               { column: this.sort.active, direction: this.sort.direction },
             ],
-          })
-        ),
+          });
+        }),
         map((page) => {
+          this.isLoadingBooks = false;
           this.booksCount = page.totalElements;
           return page.content;
         })
