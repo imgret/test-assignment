@@ -5,6 +5,7 @@ import { Observable, throwError } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
+// TODO add editing form for update operation (CRUD)
 @Component({
   selector: 'app-book-detail',
   templateUrl: './book-detail.component.html',
