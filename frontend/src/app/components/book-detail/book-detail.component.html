@@ -2,11 +2,53 @@
 <mat-card class="card mat-elevation-z4" *ngIf="book$ | async as book">
   <mat-card-title>{{ book.title }}</mat-card-title>
   <mat-card-content class="card__content">
-    <ng-container *ngFor="let item of book | keyvalue">
-      <!-- TODO add custom order of properties: id, title, author, year, genre, added, checkOutCount, status, dueDate, comment -->
-      <!-- TODO style grid -->
+    <!-- <ng-container *ngFor="let item of book | keyvalue">
       <div>{{ item.key }}</div>
       <div>{{ item.value }}</div>
-    </ng-container>
+    </ng-container> -->
+    <table>
+      <tr>
+        <th>ID</th>
+        <td>{{ book.id }}</td>
+      </tr>
+      <tr>
+        <th>Title</th>
+        <td>{{ book.title }}</td>
+      </tr>
+      <tr>
+        <th>Author</th>
+        <td>{{ book.author }}</td>
+      </tr>
+      <tr>
+        <th>Year</th>
+        <td>{{ book.year }}</td>
+      </tr>
+      <tr>
+        <th>Genre</th>
+        <td>{{ book.genre }}</td>
+      </tr>
+      <tr>
+        <th>Added</th>
+        <td>{{ book.added }}</td>
+      </tr>
+      <tr>
+        <th>Checkout count</th>
+        <td>{{ book.checkOutCount }}</td>
+      </tr>
+      <tr>
+        <th>Status</th>
+        <td>{{ book.status }}</td>
+      </tr>
+      <tr>
+        <th>Due date</th>
+        <td>{{ book.dueDate }}</td>
+      </tr>
+      <tr>
+        <th>Comment</th>
+        <td>
+          {{ book.comment }}
+        </td>
+      </tr>
+    </table>
   </mat-card-content>
 </mat-card>
