@@ -3,8 +3,8 @@ import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
-import { merge, Observable, Subject } from 'rxjs';
-import { map, startWith, switchMap } from 'rxjs/operators';
+import { merge, Observable, of, Subject } from 'rxjs';
+import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { Checkout } from 'src/app/models/checkout';
 import { PageRequest } from 'src/app/models/page';
 import { CheckoutService } from 'src/app/services/checkout.service';
@@ -64,10 +64,12 @@ export class CheckoutsTableComponent implements AfterViewInit {
             ];
           }
           this.isLoadingCheckouts = true;
-          return this.checkoutService.getCheckouts({
-            pageIndex: this.paginator.pageIndex,
-            sort,
-          });
+          return this.checkoutService
+            .getCheckouts({
+              pageIndex: this.paginator.pageIndex,
+              sort,
+            })
+            .pipe(catchError(() => of({ totalElements: 0, content: [] })));
         }),
         map((page) => {
           this.isLoadingCheckouts = false;

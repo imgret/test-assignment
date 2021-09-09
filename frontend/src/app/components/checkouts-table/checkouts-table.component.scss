@@ -19,6 +19,16 @@
 table {
   width: 100%;
   min-height: 75vh;
+  position: relative;
+}
+
+.table--no-data {
+  position: absolute;
+  inset: 0;
+  top: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 // Use already created by material table classes

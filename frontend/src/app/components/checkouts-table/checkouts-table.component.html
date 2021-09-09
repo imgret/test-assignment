@@ -60,6 +60,8 @@
         *matRowDef="let checkout; columns: displayedColumns"
         (click)="openCheckoutDetails(checkout.id)"
       ></tr>
+
+      <div *matNoDataRow class="table--no-data">No data</div>
     </table>
     <mat-paginator [length]="checkoutsCount" [pageSize]="20"></mat-paginator>
   </mat-card-content>
