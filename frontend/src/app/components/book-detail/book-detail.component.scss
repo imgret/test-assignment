@@ -1,6 +1,17 @@
 .card {
+  position: relative;
   max-width: 1024px;
+  // 100vh - toolbar height, card margin and padding
+  min-height: calc(100vh - 35px - 4em - 32px);
   margin: 2em auto;
+}
+
+.spinner-modal {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 table {
