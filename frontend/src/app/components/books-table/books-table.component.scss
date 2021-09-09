@@ -24,7 +24,8 @@
 
 table {
   width: 100%;
-  min-height: 75vh;
+  // 100vh - toolbar height, card margin and padding, card title height, pagination height
+  min-height: calc(100vh - 35px - 4em - 32px - 28px - 56px);
   position: relative;
 }
 
