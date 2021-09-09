@@ -60,6 +60,8 @@
         *matRowDef="let book; columns: displayedColumns"
         (click)="openBookDetails(book.id)"
       ></tr>
+
+      <div *matNoDataRow class="table--no-data">No data</div>
     </table>
     <mat-paginator [length]="booksCount" [pageSize]="20"></mat-paginator>
   </mat-card-content>

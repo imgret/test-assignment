@@ -3,8 +3,8 @@ import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
-import { merge, Observable, Subject } from 'rxjs';
-import { map, startWith, switchMap } from 'rxjs/operators';
+import { merge, Observable, of, Subject } from 'rxjs';
+import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { Book } from '../../models/book';
 import { BookService } from '../../services/book.service';
 
@@ -52,12 +52,14 @@ export class BooksTableComponent implements AfterViewInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingBooks = true;
-          return this.bookService.getBooks({
-            pageIndex: this.paginator.pageIndex,
-            sort: [
-              { column: this.sort.active, direction: this.sort.direction },
-            ],
-          });
+          return this.bookService
+            .getBooks({
+              pageIndex: this.paginator.pageIndex,
+              sort: [
+                { column: this.sort.active, direction: this.sort.direction },
+              ],
+            })
+            .pipe(catchError(() => of({ totalElements: 0, content: [] })));
         }),
         map((page) => {
           this.isLoadingBooks = false;
