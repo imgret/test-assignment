@@ -7,13 +7,19 @@
   position: relative;
 }
 
-.modal-spinner {
+.content__spinner-modal {
   position: absolute;
   inset: 0;
   z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: rgb(255 255 255 / 0.5);
+}
+
+.content__spinner-modal--table {
+  top: 56px;
+  bottom: 56px;
 }
 
 table {
@@ -22,7 +28,7 @@ table {
   position: relative;
 }
 
-.table--no-data {
+.table__no-data-modal {
   position: absolute;
   inset: 0;
   top: 56px;
