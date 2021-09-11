@@ -28,9 +28,9 @@ public class BookService {
         return ModelMapperFactory.getMapper().map(book, BookDTO.class);
     }
 
-    public UUID saveBook(BookDTO bookDTO) {
+    public void saveBook(BookDTO bookDTO) {
         ModelMapper modelMapper = ModelMapperFactory.getMapper();
-        return bookRepository.save(modelMapper.map(bookDTO, Book.class)).getId();
+        bookRepository.save(modelMapper.map(bookDTO, Book.class));
     }
 
     public void deleteBook(UUID bookId) {

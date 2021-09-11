@@ -29,7 +29,8 @@ public class BookController {
 
     @PostMapping(value = "saveBook")
     public ResponseEntity<String> saveBook(@RequestBody BookDTO book) {
-        return ResponseEntity.ok(String.valueOf(bookService.saveBook(book)));
+        bookService.saveBook(book);
+        return ResponseEntity.ok("");
     }
 
     @DeleteMapping(value = "deleteBook")
