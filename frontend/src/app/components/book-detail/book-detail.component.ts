@@ -16,6 +16,7 @@ export class BookDetailComponent implements OnInit, OnDestroy {
   error: Error;
   subscription: Subscription;
   showEditBook: boolean;
+  isProcessingRequest: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -43,21 +44,23 @@ export class BookDetailComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  // TODO disable submit button of editing form while until response arrival
   editBook(book: Book) {
     this.error = null;
+    this.isProcessingRequest = true;
     // It took some time to figure out why post request wasn't sent
-    // Solution: need to subscribe to observable otherwise request wouldn't be sent
+    // Solution: need to subscribe to the observable otherwise request won't be sent
     this.bookService
       .saveBook(book)
       .pipe(
         catchError((error) => {
           this.error = error;
+          this.isProcessingRequest = false;
           return throwError(error);
         })
       )
       .subscribe(() => {
         this.book = book;
+        this.isProcessingRequest = false;
       });
   }
 
@@ -67,14 +70,19 @@ export class BookDetailComponent implements OnInit, OnDestroy {
 
   deleteBook() {
     this.error = null;
+    this.isProcessingRequest = true;
     this.bookService
       .deleteBook(this.book.id)
       .pipe(
         catchError((error) => {
           this.error = error;
+          this.isProcessingRequest = false;
           return throwError(error);
         })
       )
-      .subscribe(() => this.router.navigate(['/books']));
+      .subscribe(() => {
+        this.isProcessingRequest = false;
+        this.router.navigate(['/books']);
+      });
   }
 }

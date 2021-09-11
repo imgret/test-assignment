@@ -10,7 +10,12 @@
         >
           {{ showEditBook ? "Close" : "Edit" }}
         </button>
-        <button mat-flat-button color="warn" (click)="deleteBook()">
+        <button
+          mat-flat-button
+          color="warn"
+          [disabled]="isProcessingRequest"
+          (click)="deleteBook()"
+        >
           Delete
         </button>
       </div>
@@ -24,6 +29,7 @@
       <app-edit-book
         *ngIf="showEditBook"
         [book]="book"
+        [disableSubmit]="isProcessingRequest"
         (onSubmit)="editBook($event)"
       ></app-edit-book>
       <table>
