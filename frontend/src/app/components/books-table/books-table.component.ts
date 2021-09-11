@@ -1,12 +1,11 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
-import { merge, Observable, of, Subject } from 'rxjs';
+import { merge, of } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
-import { Book } from '../../models/book';
 import { BookService } from '../../services/book.service';
+import { BooksDataSource } from './books-data-source';
 
 /**
  * Books table component
@@ -23,6 +22,7 @@ export class BooksTableComponent implements AfterViewInit {
   displayedColumns: string[] = ['title', 'author', 'year', 'genre', 'status'];
   booksCount: number = 0;
   isLoadingBooks: boolean = true;
+  showAddBook: boolean;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -73,24 +73,9 @@ export class BooksTableComponent implements AfterViewInit {
   openBookDetails(bookId: string) {
     this.router.navigate(['/books', bookId]);
   }
-}
 
-// Reference https://material.angular.io/components/table/examples#table-dynamic-observable-data
-class BooksDataSource extends DataSource<Book> {
-  private _dataStream = new Subject<Book[]>();
-
-  constructor(initialData: Book[]) {
-    super();
-    this.setData(initialData);
-  }
-
-  connect(): Observable<Book[]> {
-    return this._dataStream;
-  }
-
-  disconnect() {}
-
-  setData(data: Book[]) {
-    this._dataStream.next(data);
+  toggleAddBook() {
+    this.showAddBook = !this.showAddBook;
+    console.log(this.showAddBook);
   }
 }
