@@ -14,6 +14,7 @@ import { CheckoutDetailComponent } from './components/checkout-detail/checkout-d
 import { EditBookComponent } from './components/edit-book/edit-book.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
+import { AddBookComponent } from './components/add-book/add-book.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
     CheckoutDetailComponent,
     EditBookComponent,
     ConfirmationDialogComponent,
+    AddBookComponent,
   ],
   imports: [
     BrowserModule,

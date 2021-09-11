@@ -20,6 +20,10 @@
     >
       <mat-spinner></mat-spinner>
     </div>
+    <app-add-book
+      *ngIf="showAddBook"
+      (onSubmit)="addBook($event)"
+    ></app-add-book>
     <!--  matSortDisableClear prevents sorting removal from all columns;
             this means that sorting will switch only between asc and desc states within one column;
             by changing sorting from one column to another,

@@ -4,6 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { merge, of } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
+import { Book } from 'src/app/models/book';
 import { BookService } from '../../services/book.service';
 import { BooksDataSource } from './books-data-source';
 
@@ -76,6 +77,9 @@ export class BooksTableComponent implements AfterViewInit {
 
   toggleAddBook() {
     this.showAddBook = !this.showAddBook;
-    console.log(this.showAddBook);
+  }
+
+  addBook(book: Book) {
+    console.log(book);
   }
 }
