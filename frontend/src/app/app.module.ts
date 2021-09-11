@@ -11,10 +11,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { BooksTableComponent } from './components/books-table/books-table.component';
 import { CheckoutsTableComponent } from './components/checkouts-table/checkouts-table.component';
 import { CheckoutDetailComponent } from './components/checkout-detail/checkout-detail.component';
-import { EditBookComponent } from './components/edit-book/edit-book.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
-import { AddBookComponent } from './components/add-book/add-book.component';
+import { BookFormComponent } from './components/book-form/book-form.component';
 
 @NgModule({
   declarations: [
@@ -24,9 +23,8 @@ import { AddBookComponent } from './components/add-book/add-book.component';
     BooksTableComponent,
     CheckoutsTableComponent,
     CheckoutDetailComponent,
-    EditBookComponent,
     ConfirmationDialogComponent,
-    AddBookComponent,
+    BookFormComponent,
   ],
   imports: [
     BrowserModule,

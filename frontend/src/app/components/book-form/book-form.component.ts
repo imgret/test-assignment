@@ -4,11 +4,11 @@ import { Book } from 'src/app/models/book';
 import { BOOK_STATUSES } from 'src/app/models/book-status';
 
 @Component({
-  selector: 'app-edit-book',
-  templateUrl: './edit-book.component.html',
-  styleUrls: ['./edit-book.component.scss'],
+  selector: 'app-book-form',
+  templateUrl: './book-form.component.html',
+  styleUrls: ['./book-form.component.scss'],
 })
-export class EditBookComponent implements OnInit {
+export class BookFormComponent implements OnInit {
   readonly BOOK_STATUSES = BOOK_STATUSES;
   bookForm = this.formBuilder.group({
     id: [''],
@@ -23,14 +23,14 @@ export class EditBookComponent implements OnInit {
     comment: [''],
   });
 
-  @Input() book: Book;
+  @Input() book: Book | undefined;
   @Input() disableSubmit: boolean;
   @Output() onSubmit: EventEmitter<Book> = new EventEmitter();
 
   constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
-    this.bookForm.setValue(this.book);
+    if (this.book) this.bookForm.setValue(this.book);
   }
 
   handleSubmit() {
