@@ -3,9 +3,10 @@ import { BookService } from '../../services/book.service';
 import { Book } from '../../models/book';
 import { Subscription, throwError } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, map, startWith, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 
-// TODO add book deletion confirmation dialog
 @Component({
   selector: 'app-book-detail',
   templateUrl: './book-detail.component.html',
@@ -21,7 +22,8 @@ export class BookDetailComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private bookService: BookService,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -84,5 +86,18 @@ export class BookDetailComponent implements OnInit, OnDestroy {
         this.isProcessingRequest = false;
         this.router.navigate(['/books']);
       });
+  }
+
+  openDeletionDialog() {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: 'Deletion confirmation',
+        content: `${this.book.title} will be fully erased from the database. Please confirm deletion of the book.`,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((canDelete) => {
+      if (canDelete) this.deleteBook();
+    });
   }
 }
