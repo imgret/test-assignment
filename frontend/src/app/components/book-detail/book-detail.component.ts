@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BookService } from '../../services/book.service';
 import { Book } from '../../models/book';
-import { Observable, Subscription, throwError } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { Subscription, throwError } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 
-// TODO add book deletion button and confirmation dialog
+// TODO add book deletion confirmation dialog
 @Component({
   selector: 'app-book-detail',
   templateUrl: './book-detail.component.html',
@@ -19,7 +19,8 @@ export class BookDetailComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private bookService: BookService
+    private bookService: BookService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -42,13 +43,38 @@ export class BookDetailComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
+  // TODO disable submit button of editing form while until response arrival
   editBook(book: Book) {
+    this.error = null;
     // It took some time to figure out why post request wasn't sent
     // Solution: need to subscribe to observable otherwise request wouldn't be sent
-    this.bookService.saveBook(book).subscribe(() => (this.book = book));
+    this.bookService
+      .saveBook(book)
+      .pipe(
+        catchError((error) => {
+          this.error = error;
+          return throwError(error);
+        })
+      )
+      .subscribe(() => {
+        this.book = book;
+      });
   }
 
   toggleEditBook() {
     this.showEditBook = !this.showEditBook;
+  }
+
+  deleteBook() {
+    this.error = null;
+    this.bookService
+      .deleteBook(this.book.id)
+      .pipe(
+        catchError((error) => {
+          this.error = error;
+          return throwError(error);
+        })
+      )
+      .subscribe(() => this.router.navigate(['/books']));
   }
 }
