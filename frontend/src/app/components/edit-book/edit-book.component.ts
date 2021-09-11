@@ -24,6 +24,7 @@ export class EditBookComponent implements OnInit {
   });
 
   @Input() book: Book;
+  @Input() disableSubmit: boolean;
   @Output() onSubmit: EventEmitter<Book> = new EventEmitter();
 
   constructor(private formBuilder: FormBuilder) {}
