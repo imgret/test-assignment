@@ -1,0 +1,43 @@
+<form [formGroup]="bookForm" (ngSubmit)="handleSubmit()">
+  <mat-form-field appearance="fill">
+    <mat-label> Title </mat-label>
+    <input matInput type="text" formControlName="title" />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label> Author </mat-label>
+    <input matInput type="text" formControlName="author" />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label> Genre </mat-label>
+    <input matInput type="text" formControlName="genre" />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label> Year </mat-label>
+    <input matInput type="number" formControlName="year" />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label> Added </mat-label>
+    <input matInput type="date" formControlName="added" />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label> Checkout count </mat-label>
+    <input matInput type="number" formControlName="checkOutCount" />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label> Status </mat-label>
+    <select matNativeControl formControlName="status">
+      <option *ngFor="let status of BOOK_STATUSES" value="{{ status }}">
+        {{ status | titlecase }}
+      </option>
+    </select>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label> Due date </mat-label>
+    <input matInput type="date" formControlName="dueDate" />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label> Comment </mat-label>
+    <textarea matInput type="text" formControlName="comment"></textarea>
+  </mat-form-field>
+  <button mat-flat-button color="primary" type="submit">Submit</button>
+</form>

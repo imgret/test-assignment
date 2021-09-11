@@ -11,6 +11,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { BooksTableComponent } from './components/books-table/books-table.component';
 import { CheckoutsTableComponent } from './components/checkouts-table/checkouts-table.component';
 import { CheckoutDetailComponent } from './components/checkout-detail/checkout-detail.component';
+import { EditBookComponent } from './components/edit-book/edit-book.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -19,17 +21,18 @@ import { CheckoutDetailComponent } from './components/checkout-detail/checkout-d
     BookDetailComponent,
     BooksTableComponent,
     CheckoutsTableComponent,
-    CheckoutDetailComponent
+    CheckoutDetailComponent,
+    EditBookComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    ReactiveFormsModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule {
-}
+export class AppModule {}

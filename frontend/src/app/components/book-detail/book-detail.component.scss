@@ -12,6 +12,12 @@
   justify-content: space-between;
 }
 
+.card__content {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1em;
+}
+
 .alert {
   background-color: hsl(0 90% 90%);
   border: 1px solid hsl(0 90% 50%);
