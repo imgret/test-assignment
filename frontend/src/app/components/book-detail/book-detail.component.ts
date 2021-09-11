@@ -5,17 +5,17 @@ import { Observable, Subscription, throwError } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
-// TODO Force editing form to open and close by clicking edit button
+// TODO add book deletion button and confirmation dialog
 @Component({
   selector: 'app-book-detail',
   templateUrl: './book-detail.component.html',
   styleUrls: ['./book-detail.component.scss'],
 })
 export class BookDetailComponent implements OnInit, OnDestroy {
-  book$: Observable<Book>;
   book: Book;
   error: Error;
   subscription: Subscription;
+  showEditBook: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -46,5 +46,9 @@ export class BookDetailComponent implements OnInit, OnDestroy {
     // It took some time to figure out why post request wasn't sent
     // Solution: need to subscribe to observable otherwise request wouldn't be sent
     this.bookService.saveBook(book).subscribe(() => (this.book = book));
+  }
+
+  toggleEditBook() {
+    this.showEditBook = !this.showEditBook;
   }
 }

@@ -2,10 +2,17 @@
   <ng-container *ngIf="book; else loadingOrError">
     <mat-card-title class="card__title">
       <span>Book</span>
-      <button mat-flat-button color="primary">Edit</button>
+      <button
+        mat-flat-button
+        color="{{ showEditBook ? 'accent' : 'primary' }}"
+        (click)="toggleEditBook()"
+      >
+        {{ showEditBook ? "Close" : "Edit" }}
+      </button>
     </mat-card-title>
     <mat-card-content class="card__content">
       <app-edit-book
+        *ngIf="showEditBook"
         [book]="book"
         (onSubmit)="editBook($event)"
       ></app-edit-book>
