@@ -66,6 +66,8 @@ export class BookDetailComponent implements OnInit, OnDestroy {
       });
   }
 
+  // Toggling depiction of book editing form is heavily inspired by video: https://youtu.be/3dHNOWTI7H8?t=5817
+  // It looks like a good way to hide big book editing form and show it only when user needs this form.
   toggleEditBook() {
     this.showEditBook = !this.showEditBook;
   }
