@@ -13,6 +13,7 @@ import { CheckoutsTableComponent } from './components/checkouts-table/checkouts-
 import { CheckoutDetailComponent } from './components/checkout-detail/checkout-detail.component';
 import { EditBookComponent } from './components/edit-book/edit-book.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     CheckoutsTableComponent,
     CheckoutDetailComponent,
     EditBookComponent,
+    ConfirmationDialogComponent,
   ],
   imports: [
     BrowserModule,
