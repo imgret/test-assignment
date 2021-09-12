@@ -1,7 +1,37 @@
 <mat-card class="card mat-elevation-z4">
-  <ng-container *ngIf="checkout$ | async as checkout; else loadingOrError">
-    <mat-card-title>Checkout</mat-card-title>
-    <mat-card-content>
+  <ng-container *ngIf="checkout; else loadingOrError">
+    <mat-card-title class="card__title">
+      <span>Checkout</span>
+      <div class="title__buttons">
+        <button
+          mat-flat-button
+          color="{{ showEditCheckout ? 'accent' : 'primary' }}"
+          (click)="toggleEditCheckout()"
+        >
+          {{ showEditCheckout ? "Close" : "Edit" }}
+        </button>
+        <button
+          mat-flat-button
+          color="warn"
+          [disabled]="isProcessingRequest"
+          (click)="openDeletionDialog()"
+        >
+          Delete
+        </button>
+      </div>
+    </mat-card-title>
+    <mat-card-content class="card__content">
+      <ng-container *ngIf="error">
+        <div class="alert">
+          {{ error.error.message || error.error.error || error.message }}
+        </div>
+      </ng-container>
+      <app-checkout-form
+        *ngIf="showEditCheckout"
+        [checkout]="checkout"
+        [disableSubmit]="isProcessingRequest"
+        (onSubmit)="editCheckout($event)"
+      ></app-checkout-form>
       <table>
         <tr>
           <th>ID</th>
