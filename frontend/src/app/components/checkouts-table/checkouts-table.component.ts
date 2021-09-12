@@ -1,11 +1,9 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
-import { merge, Observable, of, Subject } from 'rxjs';
+import { merge, of } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
-import { Checkout } from 'src/app/models/checkout';
 import { PageRequest } from 'src/app/models/page';
 import { CheckoutService } from 'src/app/services/checkout.service';
 import { CheckoutsDataSource } from './checkouts-data-source';

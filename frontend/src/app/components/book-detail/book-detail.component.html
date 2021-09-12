@@ -4,6 +4,14 @@
       <span>Book</span>
       <div class="title__buttons">
         <button
+          *ngIf="book.status === 'BORROWED'"
+          mat-flat-button
+          color="{{ showCheckOutBook ? 'accent' : 'primary' }}"
+          (click)="toggleCheckOutBook()"
+        >
+          {{ showCheckOutBook ? "Close" : "Check out" }}
+        </button>
+        <button
           mat-flat-button
           color="{{ showEditBook ? 'accent' : 'primary' }}"
           (click)="toggleEditBook()"

@@ -12,12 +12,15 @@ import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation
   templateUrl: './book-detail.component.html',
   styleUrls: ['./book-detail.component.scss'],
 })
+// TODO Add checkout creation form into checkouts view or into book details view (prefer book details)
+// TODO remove BORROWED state from book creation form (because book won't have associated checkout)
 export class BookDetailComponent implements OnInit, OnDestroy {
   book: Book;
   error: Error;
   subscription: Subscription;
-  showEditBook: boolean;
   isProcessingRequest: boolean;
+  showEditBook: boolean;
+  showCheckOutBook: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -108,5 +111,10 @@ export class BookDetailComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((canDelete) => {
       if (canDelete) this.deleteBook();
     });
+  }
+
+  // Toggle depiction of book checkout form.
+  toggleCheckOutBook() {
+    this.showCheckOutBook = !this.showCheckOutBook;
   }
 }
