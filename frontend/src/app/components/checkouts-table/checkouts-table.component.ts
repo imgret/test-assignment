@@ -81,6 +81,7 @@ export class CheckoutsTableComponent implements AfterViewInit {
       .subscribe((checkouts) => this.dataSource.setData(checkouts));
   }
 
+  // Used on checkout row click for navigation to checkout details view
   openCheckoutDetails(checkoutId: string) {
     this.router.navigate(['/checkouts', checkoutId]);
   }

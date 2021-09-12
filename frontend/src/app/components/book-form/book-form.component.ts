@@ -16,6 +16,7 @@ export class BookFormComponent implements OnInit {
     author: ['', Validators.required],
     genre: ['', Validators.required],
     year: [0, [Validators.required, Validators.pattern(/^\d{1,4}$/)]],
+    // ISO date format transformation reference: https://stackoverflow.com/a/25159489
     added: [new Date().toISOString().split('T')[0], Validators.required],
     checkOutCount: [0, [Validators.min(0), Validators.required]],
     status: ['AVAILABLE', Validators.required],
@@ -23,7 +24,9 @@ export class BookFormComponent implements OnInit {
     comment: [],
   });
 
+  // Used for setting up initial form state
   @Input() book: Book | undefined;
+  // Manages 'disabled; state of submit button
   @Input() disableSubmit: boolean;
   @Output() onSubmit: EventEmitter<Book> = new EventEmitter();
 
@@ -33,6 +36,8 @@ export class BookFormComponent implements OnInit {
     if (this.book) this.bookForm.setValue(this.book);
   }
 
+  // Handle submit button click and if all form inputs hold valid values,
+  // then emit onSubmit event and reset form.
   handleSubmit() {
     if (!this.bookForm.invalid) {
       this.onSubmit.emit(this.bookForm.value);

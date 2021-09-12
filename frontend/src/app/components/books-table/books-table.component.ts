@@ -68,6 +68,8 @@ export class BooksTableComponent implements AfterViewInit, OnDestroy {
   // Operator accepts any observable and on it's emission
   // makes request to bookService.getBooks and
   // maps received Page<Book> to array of Book[] type.
+  // Also this operator internally manages isLoadingBooks and booksCount states,
+  // which are used for showing/hiding spinner modal and setting rows count in table accordingly.
   // Reference: https://stackoverflow.com/a/62896009
   booksMap(): OperatorFunction<unknown, Book[]> {
     return (input$) =>
@@ -91,14 +93,17 @@ export class BooksTableComponent implements AfterViewInit, OnDestroy {
       );
   }
 
+  // Used on book row click for navigation to book details view
   openBookDetails(bookId: string) {
     this.router.navigate(['/books', bookId]);
   }
 
+  // Toggles state showAddBook, which is used to show/hide book creation form
   toggleAddBook() {
     this.showAddBook = !this.showAddBook;
   }
 
+  // Used on submit event from book creation form
   addBook(book: Book) {
     this.bookService
       .saveBook(book)

@@ -46,6 +46,9 @@ export class BookDetailComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
+  // Used on submit event from book editing form.
+  // Calls saveBook of book service and updates internal 'book' state,
+  // which is used for depiction of book details table.
   editBook(book: Book) {
     this.error = null;
     this.isProcessingRequest = true;
@@ -72,6 +75,8 @@ export class BookDetailComponent implements OnInit, OnDestroy {
     this.showEditBook = !this.showEditBook;
   }
 
+  // Used for requesting book deletion in book service.
+  // This method is called after user confirmation from confirmation dialog.
   deleteBook() {
     this.error = null;
     this.isProcessingRequest = true;
@@ -90,6 +95,8 @@ export class BookDetailComponent implements OnInit, OnDestroy {
       });
   }
 
+  // Opens dialog to request deletion action confirmation from user.
+  // It is called by 'delete' button click.
   openDeletionDialog() {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: {
