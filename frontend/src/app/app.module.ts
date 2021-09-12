@@ -14,6 +14,7 @@ import { CheckoutDetailComponent } from './components/checkout-detail/checkout-d
 import { ReactiveFormsModule } from '@angular/forms';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { BookFormComponent } from './components/book-form/book-form.component';
+import { CheckoutFormComponent } from './components/checkout-form/checkout-form.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { BookFormComponent } from './components/book-form/book-form.component';
     CheckoutDetailComponent,
     ConfirmationDialogComponent,
     BookFormComponent,
+    CheckoutFormComponent,
   ],
   imports: [
     BrowserModule,

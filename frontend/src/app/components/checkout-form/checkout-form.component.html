@@ -1,0 +1,37 @@
+<form [formGroup]="checkoutForm" (ngSubmit)="handleSubmit()">
+  <mat-form-field appearance="fill">
+    <mat-label> Borrower's first name </mat-label>
+    <input matInput type="text" formControlName="borrowerFirstName" />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label> Borrower's last name </mat-label>
+    <input matInput type="text" formControlName="borrowerLastName" />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label> Borrowed book's id </mat-label>
+    <input matInput type="text" formControlName="borrowedBookId" />
+    <mat-error *ngIf="checkoutForm.get('borrowedBookId').errors">{{
+      checkoutForm.get("borrowedBookId").errors.invalidId.message
+    }}</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label> Checkout date </mat-label>
+    <input matInput type="date" formControlName="checkedOutDate" />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label> Due date </mat-label>
+    <input matInput type="date" formControlName="dueDate" />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label> Return date </mat-label>
+    <input matInput type="date" formControlName="returnedDate" />
+  </mat-form-field>
+  <button
+    mat-flat-button
+    color="primary"
+    type="submit"
+    [disabled]="disableSubmit"
+  >
+    Submit
+  </button>
+</form>
