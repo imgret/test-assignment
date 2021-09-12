@@ -8,7 +8,14 @@
       <mat-spinner></mat-spinner>
     </div>
 
-    <table mat-table [dataSource]="dataSource" matSort matSortDisableClear>
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      matSort
+      matSortActive="borrowedBookTitle"
+      matSortDirection="asc"
+      matSortDisableClear
+    >
       <!-- Book title column -->
       <ng-container matColumnDef="borrowedBookTitle">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Book title</th>
