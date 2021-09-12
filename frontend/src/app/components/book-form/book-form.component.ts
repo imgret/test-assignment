@@ -3,6 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { Book } from 'src/app/models/book';
 import { BOOK_STATUSES } from 'src/app/models/book-status';
 
+// TODO Add validation
 @Component({
   selector: 'app-book-form',
   templateUrl: './book-form.component.html',
