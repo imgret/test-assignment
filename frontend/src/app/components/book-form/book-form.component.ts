@@ -18,7 +18,7 @@ export class BookFormComponent implements OnInit {
     year: [''],
     added: [''],
     checkOutCount: [''],
-    status: [''],
+    status: ['AVAILABLE'],
     dueDate: [''],
     comment: [''],
   });
