@@ -36,5 +36,6 @@ export class BookFormComponent implements OnInit {
 
   handleSubmit() {
     this.onSubmit.emit(this.bookForm.value);
+    if (!this.book) this.bookForm.reset();
   }
 }
