@@ -8,6 +8,7 @@ import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { Checkout } from 'src/app/models/checkout';
 import { PageRequest } from 'src/app/models/page';
 import { CheckoutService } from 'src/app/services/checkout.service';
+import { CheckoutsDataSource } from './checkouts-data-source';
 
 /**
  * Checkouts table component
@@ -82,25 +83,5 @@ export class CheckoutsTableComponent implements AfterViewInit {
 
   openCheckoutDetails(checkoutId: string) {
     this.router.navigate(['/checkouts', checkoutId]);
-  }
-}
-
-// Reference https://material.angular.io/components/table/examples#table-dynamic-observable-data
-class CheckoutsDataSource extends DataSource<Checkout> {
-  private _dataStream = new Subject<Checkout[]>();
-
-  constructor(initialData: Checkout[]) {
-    super();
-    this.setData(initialData);
-  }
-
-  connect(): Observable<Checkout[]> {
-    return this._dataStream;
-  }
-
-  disconnect() {}
-
-  setData(data: Checkout[]) {
-    this._dataStream.next(data);
   }
 }
