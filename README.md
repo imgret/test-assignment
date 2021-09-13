@@ -57,6 +57,8 @@ If you have any questions, please reach out without hesitation. Best of luck!
 * [x] Using backend api endpoint /getBooks, implement table of books view
 * [x] Using backend api endpoint /getCheckouts, also implement the checkouts view. Suppport paging and sorting for both views
 * [ ] Implement individual book and checkout view, support basic CRUD operations, implement checking out and returning books
+  * [x] Individual book view
+  * [x] Individual checkout view
   * [x] Book CRUD operations
   * [x] Checkout CRUD operations
   * [x] Book checking out functionality
