@@ -44,7 +44,7 @@
         *ngIf="showCheckOutBook"
         [checkout]="checkout"
         [disableSubmit]="isProcessingRequest"
-        (onSubmit)="(null)"
+        (onSubmit)="checkOutBook($event)"
       ></app-checkout-form>
       <table>
         <tr>
