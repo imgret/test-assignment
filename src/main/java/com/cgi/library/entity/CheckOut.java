@@ -14,6 +14,7 @@ public class CheckOut {
     @Id
     @Column
     @Type(type="uuid-char")
+    @GeneratedValue
     private UUID id;
 
     @Column(name = "borrower_first_name")
