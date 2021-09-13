@@ -13,7 +13,6 @@ import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation
   styleUrls: ['./book-detail.component.scss'],
 })
 // TODO Add checkout creation form into checkouts view or into book details view (prefer book details)
-// TODO remove BORROWED state from book creation form (because book won't have associated checkout)
 export class BookDetailComponent implements OnInit, OnDestroy {
   book: Book;
   error: Error;
@@ -76,6 +75,8 @@ export class BookDetailComponent implements OnInit, OnDestroy {
   // It looks like a good way to hide big book editing form and show it only when user needs this form.
   toggleEditBook() {
     this.showEditBook = !this.showEditBook;
+    // Close checkout creation form on opening of book editing form
+    this.showCheckOutBook = false;
   }
 
   // Used for requesting book deletion in book service.
@@ -116,5 +117,7 @@ export class BookDetailComponent implements OnInit, OnDestroy {
   // Toggle depiction of book checkout form.
   toggleCheckOutBook() {
     this.showCheckOutBook = !this.showCheckOutBook;
+    // Close book editing form on opening of checkout creation form
+    this.showEditBook = false;
   }
 }

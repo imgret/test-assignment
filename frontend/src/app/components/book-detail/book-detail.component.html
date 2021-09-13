@@ -4,7 +4,7 @@
       <span>Book</span>
       <div class="title__buttons">
         <button
-          *ngIf="book.status === 'BORROWED'"
+          *ngIf="book.status === 'AVAILABLE'"
           mat-flat-button
           color="{{ showCheckOutBook ? 'accent' : 'primary' }}"
           (click)="toggleCheckOutBook()"
@@ -40,6 +40,12 @@
         [disableSubmit]="isProcessingRequest"
         (onSubmit)="editBook($event)"
       ></app-book-form>
+      <app-checkout-form
+        *ngIf="showCheckOutBook"
+        [checkout]="checkout"
+        [disableSubmit]="isProcessingRequest"
+        (onSubmit)="(null)"
+      ></app-checkout-form>
       <table>
         <tr>
           <th>ID</th>
