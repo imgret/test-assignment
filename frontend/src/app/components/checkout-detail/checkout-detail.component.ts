@@ -19,6 +19,7 @@ import { BookDetailComponent } from '../book-detail/book-detail.component';
   templateUrl: './checkout-detail.component.html',
   styleUrls: ['./checkout-detail.component.scss'],
 })
+// TODO book return functionality
 export class CheckoutDetailComponent implements OnInit, OnDestroy {
   checkout: Checkout;
   error: Error;
@@ -112,5 +113,10 @@ export class CheckoutDetailComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((canDelete) => {
       if (canDelete) this.deleteCheckout();
     });
+  }
+
+  // Sets current date as return date to checkout and sets associated book's status to 'RETURNED'
+  markReturn() {
+    console.log('returned');
   }
 }

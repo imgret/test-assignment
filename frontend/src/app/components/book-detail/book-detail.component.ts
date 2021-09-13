@@ -14,7 +14,6 @@ import { CheckoutService } from 'src/app/services/checkout.service';
   templateUrl: './book-detail.component.html',
   styleUrls: ['./book-detail.component.scss'],
 })
-// TODO Add dialog for checkout confirmation
 export class BookDetailComponent implements OnInit, OnDestroy {
   book: Book;
   error: Error;
