@@ -169,6 +169,25 @@ export class BookDetailComponent implements OnInit, OnDestroy {
       .subscribe((book) => {
         this.book = book;
         this.isProcessingRequest = false;
+        // Close checkout form, because it is unavailable to books with 'BORROWED' status.
+        this.showCheckOutBook = false;
       });
+  }
+
+  // Opens dialog to request book checkout action confirmation from user.
+  // It is called by submission of book checkout form.
+  openCheckoutDialog(checkout: Checkout) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: 'Checkout confirmation',
+        content: `Book with id ${this.book.id} will be marked as borrowed and
+        corresponding checkout entry will be saved in database.
+        Please confirm book checkout.`,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((canDelete) => {
+      if (canDelete) this.checkOutBook(checkout);
+    });
   }
 }
