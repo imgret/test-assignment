@@ -145,9 +145,9 @@ export class CheckoutDetailComponent implements OnInit, OnDestroy {
           return throwError(error);
         })
       )
-      .subscribe(() => {
+      .subscribe((updatedBook) => {
         this.isProcessingRequest = false;
-        this.checkout = updatedCheckout;
+        this.checkout = { ...updatedCheckout, borrowedBook: updatedBook };
       });
   }
 }

@@ -4,6 +4,7 @@
       <span>Checkout</span>
       <div class="title__buttons">
         <button
+          *ngIf="checkout.borrowedBook.status === 'BORROWED'"
           mat-flat-button
           color="primary"
           [disabled]="isProcessingRequest"
