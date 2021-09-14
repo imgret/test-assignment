@@ -1,5 +1,7 @@
 .card {
   max-width: 1024px;
+  // 100vh - toolbar height, card margin and padding
+  min-height: calc(100vh - 35px - 4em - 32px);
   margin: 2em auto;
 }
 
@@ -28,17 +30,22 @@
   bottom: 56px;
 }
 
+.content__table-container {
+  width: 100%;
+  position: relative;
+}
+
 table {
   width: 100%;
   // 100vh - toolbar height, card margin and padding, card title height, pagination height
-  min-height: calc(100vh - 35px - 4em - 32px - 28px - 56px);
-  position: relative;
+  min-height: calc(100vh - 35px - 4em - 32px - 44px - 56px);
 }
 
 .table__no-data-modal {
   position: absolute;
   inset: 0;
   top: 56px;
+  bottom: 56px;
   display: flex;
   align-items: center;
   justify-content: center;
