@@ -37,30 +37,3 @@
   align-items: center;
   justify-content: center;
 }
-
-table {
-  width: 100%;
-}
-
-tr:nth-child(even) {
-  background-color: rgb(0 0 0 / 0.1);
-}
-
-th {
-  width: 150px;
-  text-align: end;
-  padding-right: 1em;
-  font-weight: 500;
-}
-
-td {
-  padding-left: 1em;
-}
-
-table table tr {
-  background-color: initial;
-}
-
-table table th {
-  width: 50px;
-}

@@ -1,0 +1,49 @@
+<table>
+  <tr>
+    <th>ID</th>
+    <td>{{ checkout.id }}</td>
+  </tr>
+  <tr>
+    <th>Borrower first name</th>
+    <td>{{ checkout.borrowerFirstName }}</td>
+  </tr>
+  <tr>
+    <th>Borrower last name</th>
+    <td>{{ checkout.borrowerLastName }}</td>
+  </tr>
+  <tr>
+    <th>Borrowed book</th>
+    <td>
+      <table>
+        <tr>
+          <th>ID</th>
+          <td>{{ checkout.borrowedBook.id }}</td>
+        </tr>
+        <tr>
+          <th>Title</th>
+          <td>{{ checkout.borrowedBook.title }}</td>
+        </tr>
+        <tr>
+          <th>Author</th>
+          <td>{{ checkout.borrowedBook.author }}</td>
+        </tr>
+        <tr>
+          <th>Year</th>
+          <td>{{ checkout.borrowedBook.year }}</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <th>Checkout date</th>
+    <td>{{ checkout.checkedOutDate }}</td>
+  </tr>
+  <tr>
+    <th>Due date</th>
+    <td>{{ checkout.dueDate }}</td>
+  </tr>
+  <tr>
+    <th>Return date</th>
+    <td>{{ checkout.returnedDate }}</td>
+  </tr>
+</table>
