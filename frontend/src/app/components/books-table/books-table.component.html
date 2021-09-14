@@ -31,6 +31,7 @@
             matSortActive="title" and matSortDirection="asc" sets initial sorting to 'title' column in asc direction
     -->
     <table
+      [ngStyle]="{ display: showAddBook ? 'none' : 'table' }"
       mat-table
       [dataSource]="dataSource"
       matSort
