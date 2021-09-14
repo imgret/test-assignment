@@ -3,7 +3,12 @@
     <mat-card-title class="card__title">
       <span>Checkout</span>
       <div class="title__buttons">
-        <button mat-flat-button color="primary" (click)="markReturn()">
+        <button
+          mat-flat-button
+          color="primary"
+          [disabled]="isProcessingRequest"
+          (click)="markReturn()"
+        >
           Mark return
         </button>
         <button
