@@ -138,10 +138,14 @@ export class BookDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Rxjs pipeable operator, which sets status of current book to 'BORROWED' and
-  // returns observable which emits updated book object.
-  setBookStateBorrowed(): OperatorFunction<unknown, Book> {
-    const updatedBook: Book = { ...this.book, status: 'BORROWED' };
+  // Rxjs pipeable operator, which sets status of current book to 'BORROWED' and checkOutCount + 1.
+  // Returns observable which emits updated book object.
+  borrowBook(): OperatorFunction<unknown, Book> {
+    const updatedBook: Book = {
+      ...this.book,
+      status: 'BORROWED',
+      checkOutCount: this.book.checkOutCount + 1,
+    };
     return (input$) =>
       input$.pipe(
         switchMap(() => this.bookService.saveBook(updatedBook)),
@@ -158,7 +162,7 @@ export class BookDetailComponent implements OnInit, OnDestroy {
     this.checkoutService
       .saveCheckout(checkout)
       .pipe(
-        this.setBookStateBorrowed(),
+        this.borrowBook(),
         catchError((error) => {
           this.error = error;
           this.isProcessingRequest = false;
