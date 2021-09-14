@@ -1,11 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription, throwError } from 'rxjs';
+import { OperatorFunction, Subscription, throwError } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { Checkout } from 'src/app/models/checkout';
 import { CheckoutService } from 'src/app/services/checkout.service';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { Book } from 'src/app/models/book';
+import { BookService } from 'src/app/services/book.service';
 import { BookDetailComponent } from '../book-detail/book-detail.component';
 
 /**
@@ -19,7 +21,6 @@ import { BookDetailComponent } from '../book-detail/book-detail.component';
   templateUrl: './checkout-detail.component.html',
   styleUrls: ['./checkout-detail.component.scss'],
 })
-// TODO book return functionality
 export class CheckoutDetailComponent implements OnInit, OnDestroy {
   checkout: Checkout;
   error: Error;
@@ -30,6 +31,7 @@ export class CheckoutDetailComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private checkoutService: CheckoutService,
+    private bookService: BookService,
     private router: Router,
     public dialog: MatDialog
   ) {}
@@ -115,8 +117,37 @@ export class CheckoutDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  // Sets current date as return date to checkout and sets associated book's status to 'RETURNED'
+  // Rxjs pipeable operator, which sets status of received book to 'RETURNED' and reset dueDate.
+  // Returns observable which emits updated book object.
+  returnBook(book: Book): OperatorFunction<unknown, Book> {
+    const updatedBook: Book = { ...book, status: 'RETURNED', dueDate: '' };
+    return (input$) =>
+      input$.pipe(
+        switchMap(() => this.bookService.saveBook(updatedBook)),
+        map(() => updatedBook)
+      );
+  }
+
+  // Sets current date as return date to checkout.
+  // Sets associated book's status to 'RETURNED' and resets dueDate of associated book.
   markReturn() {
-    console.log('returned');
+    this.error = null;
+    this.isProcessingRequest = true;
+    const returnedDate = new Date().toISOString().split('T')[0];
+    const updatedCheckout: Checkout = { ...this.checkout, returnedDate };
+    this.checkoutService
+      .saveCheckout(updatedCheckout)
+      .pipe(
+        this.returnBook(this.checkout.borrowedBook),
+        catchError((error) => {
+          this.error = error;
+          this.isProcessingRequest = false;
+          return throwError(error);
+        })
+      )
+      .subscribe(() => {
+        this.isProcessingRequest = false;
+        this.checkout = updatedCheckout;
+      });
   }
 }
