@@ -46,50 +46,10 @@
         [disableSubmit]="isProcessingRequest"
         (onSubmit)="openCheckoutDialog($event)"
       ></app-checkout-form>
-      <table *ngIf="!showEditBook && !showCheckOutBook">
-        <tr>
-          <th>ID</th>
-          <td>{{ book.id }}</td>
-        </tr>
-        <tr>
-          <th>Title</th>
-          <td>{{ book.title }}</td>
-        </tr>
-        <tr>
-          <th>Author</th>
-          <td>{{ book.author }}</td>
-        </tr>
-        <tr>
-          <th>Year</th>
-          <td>{{ book.year }}</td>
-        </tr>
-        <tr>
-          <th>Genre</th>
-          <td>{{ book.genre }}</td>
-        </tr>
-        <tr>
-          <th>Added</th>
-          <td>{{ book.added }}</td>
-        </tr>
-        <tr>
-          <th>Checkout count</th>
-          <td>{{ book.checkOutCount }}</td>
-        </tr>
-        <tr>
-          <th>Status</th>
-          <td>{{ book.status | titlecase }}</td>
-        </tr>
-        <tr>
-          <th>Due date</th>
-          <td>{{ book.dueDate }}</td>
-        </tr>
-        <tr>
-          <th>Comment</th>
-          <td>
-            {{ book.comment }}
-          </td>
-        </tr>
-      </table>
+      <app-book-detail-table
+        *ngIf="!showEditBook && !showCheckOutBook"
+        [book]="book"
+      ></app-book-detail-table>
     </mat-card-content>
   </ng-container>
 
