@@ -31,14 +31,12 @@
       </option>
     </select>
   </mat-form-field>
-  <mat-form-field appearance="fill">
+  <mat-form-field
+    appearance="fill"
+    *ngIf="bookForm.value.status === 'BORROWED'"
+  >
     <mat-label> Due date </mat-label>
-    <input
-      matInput
-      type="date"
-      [required]="bookForm.value.status === 'BORROWED'"
-      formControlName="dueDate"
-    />
+    <input matInput type="date" required formControlName="dueDate" />
   </mat-form-field>
   <mat-form-field appearance="fill">
     <mat-label> Comment </mat-label>
