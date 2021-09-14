@@ -138,13 +138,14 @@ export class BookDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Rxjs pipeable operator, which sets status of current book to 'BORROWED' and checkOutCount + 1.
+  // Rxjs pipeable operator, which sets status of current book to 'BORROWED', checkOutCount + 1, dueDate to given date.
   // Returns observable which emits updated book object.
-  borrowBook(): OperatorFunction<unknown, Book> {
+  borrowBook(dueDate: string): OperatorFunction<unknown, Book> {
     const updatedBook: Book = {
       ...this.book,
       status: 'BORROWED',
       checkOutCount: this.book.checkOutCount + 1,
+      dueDate,
     };
     return (input$) =>
       input$.pipe(
@@ -162,7 +163,7 @@ export class BookDetailComponent implements OnInit, OnDestroy {
     this.checkoutService
       .saveCheckout(checkout)
       .pipe(
-        this.borrowBook(),
+        this.borrowBook(checkout.dueDate),
         catchError((error) => {
           this.error = error;
           this.isProcessingRequest = false;
