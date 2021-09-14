@@ -46,7 +46,7 @@
         [disableSubmit]="isProcessingRequest"
         (onSubmit)="openCheckoutDialog($event)"
       ></app-checkout-form>
-      <table>
+      <table *ngIf="!showEditBook && !showCheckOutBook">
         <tr>
           <th>ID</th>
           <td>{{ book.id }}</td>
