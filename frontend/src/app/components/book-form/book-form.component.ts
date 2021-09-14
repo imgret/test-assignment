@@ -33,7 +33,15 @@ export class BookFormComponent implements OnInit {
   constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
+    // Set initial form values using received as prop book object
     if (this.book) this.bookForm.setValue(this.book);
+
+    // Track status field changes and if changed to any value except BORROWED, then reset dueDate field
+    this.bookForm.get('status').valueChanges.subscribe((status) => {
+      if (status !== 'BORROWED') {
+        this.bookForm.get('dueDate').setValue('');
+      }
+    });
   }
 
   // Handle submit button click and if all form inputs hold valid values,
