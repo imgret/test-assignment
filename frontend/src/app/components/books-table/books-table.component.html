@@ -17,7 +17,7 @@
     <!-- Can't use *ngIf, because after show->hide->show actions table's rows are not rendered -->
     <div
       class="content__table-container"
-      [ngStyle]="{ display: showAddBook ? 'none' : 'div' }"
+      [ngStyle]="{ display: showAddBook ? 'none' : 'block' }"
     >
       <!--
         It was pretty challenging for me to force empty initial table
