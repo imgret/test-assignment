@@ -106,6 +106,7 @@ export class CheckoutDetailComponent implements OnInit, OnDestroy {
   // It is called by 'delete' button click.
   openDeletionDialog() {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      maxWidth: 640,
       data: {
         title: 'Deletion confirmation',
         content: `Checkout with id ${this.checkout.id} will be fully erased from the database. Please confirm deletion of the checkout.`,
