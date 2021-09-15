@@ -71,6 +71,7 @@ export class BookDetailComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.book = book;
         this.isProcessingRequest = false;
+        this.showEditBook = false;
       });
   }
 

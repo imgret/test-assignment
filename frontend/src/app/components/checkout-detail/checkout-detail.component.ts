@@ -74,6 +74,7 @@ export class CheckoutDetailComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.checkout = checkout;
         this.isProcessingRequest = false;
+        this.showEditCheckout = false;
       });
   }
 

@@ -108,6 +108,9 @@ export class BooksTableComponent implements AfterViewInit, OnDestroy {
     this.bookService
       .saveBook(book)
       .pipe(this.booksMap())
-      .subscribe((books) => this.dataSource.setData(books));
+      .subscribe((books) => {
+        this.dataSource.setData(books);
+        this.showAddBook = false;
+      });
   }
 }
