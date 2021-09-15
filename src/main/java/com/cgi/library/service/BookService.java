@@ -10,7 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class BookService {
@@ -35,5 +37,10 @@ public class BookService {
 
     public void deleteBook(UUID bookId) {
         bookRepository.deleteById(bookId);
+    }
+
+    public Page<BookDTO> searchFreeText(String searchTerm, Pageable pageable) {
+        ModelMapper modelMapper = ModelMapperFactory.getMapper();
+        return bookRepository.searchFreeText(searchTerm, pageable).map(book -> modelMapper.map(book, BookDTO.class));
     }
 }

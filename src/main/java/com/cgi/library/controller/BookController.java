@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -37,5 +38,10 @@ public class BookController {
     public ResponseEntity<String> deleteBook(@RequestParam(value = "bookId") UUID bookId) {
         bookService.deleteBook(bookId);
         return ResponseEntity.ok("");
+    }
+
+    @GetMapping(value = "search")
+    public ResponseEntity<Page<BookDTO>> getBook(@RequestParam(value = "term") String searchTerm, Pageable pageable) {
+        return ResponseEntity.ok(bookService.searchFreeText(searchTerm, pageable));
     }
 }
