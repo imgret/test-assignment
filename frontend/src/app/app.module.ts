@@ -11,12 +11,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { BooksTableComponent } from './components/books-table/books-table.component';
 import { CheckoutsTableComponent } from './components/checkouts-table/checkouts-table.component';
 import { CheckoutDetailComponent } from './components/checkout-detail/checkout-detail.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { BookFormComponent } from './components/book-form/book-form.component';
 import { CheckoutFormComponent } from './components/checkout-form/checkout-form.component';
 import { BookDetailTableComponent } from './components/book-detail-table/book-detail-table.component';
 import { CheckoutDetailTableComponent } from './components/checkout-detail-table/checkout-detail-table.component';
+import { BookSearchFormComponent } from './components/book-search-form/book-search-form.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { CheckoutDetailTableComponent } from './components/checkout-detail-table
     CheckoutFormComponent,
     BookDetailTableComponent,
     CheckoutDetailTableComponent,
+    BookSearchFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,6 +41,7 @@ import { CheckoutDetailTableComponent } from './components/checkout-detail-table
     BrowserAnimationsModule,
     MaterialModule,
     ReactiveFormsModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

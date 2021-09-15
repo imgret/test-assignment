@@ -113,4 +113,8 @@ export class BooksTableComponent implements AfterViewInit, OnDestroy {
         this.showAddBook = false;
       });
   }
+
+  searchBooks(searchTerm: string) {
+    console.log(searchTerm);
+  }
 }

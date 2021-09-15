@@ -26,7 +26,8 @@
 }
 
 .content__spinner-modal--table {
-  top: 56px;
+  // table header height, search form height
+  top: calc(56px + 70px);
   bottom: 56px;
 }
 
@@ -37,14 +38,15 @@
 
 table {
   width: 100%;
-  // 100vh - toolbar height, card margin and padding, card title height, pagination height
-  min-height: calc(100vh - 35px - 4em - 32px - 44px - 56px);
+  // 100vh - toolbar height, card margin and padding, card title height, search form height, pagination height
+  min-height: calc(100vh - 35px - 4em - 32px - 44px - 70px - 56px);
 }
 
 .table__no-data-modal {
   position: absolute;
   inset: 0;
-  top: 56px;
+  // table header height, search form height
+  top: calc(56px + 70px);
   bottom: 56px;
   display: flex;
   align-items: center;

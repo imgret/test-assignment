@@ -1,0 +1,20 @@
+<form (ngSubmit)="handleSubmit()">
+  <mat-form-field appearance="standard">
+    <input
+      matInput
+      type="search"
+      name="search"
+      placeholder="Search books"
+      [(ngModel)]="searchTerm"
+    />
+    <button
+      matSuffix
+      type="submit"
+      mat-icon-button
+      color="primary"
+      [disabled]="false"
+    >
+      <mat-icon>search</mat-icon>
+    </button>
+  </mat-form-field>
+</form>

@@ -30,6 +30,9 @@
       >
         <mat-spinner></mat-spinner>
       </div>
+      <app-book-search-form
+        (onSubmit)="searchBooks($event)"
+      ></app-book-search-form>
       <!--
         matSortDisableClear prevents sorting removal from all columns;
         this means that sorting will switch only between asc and desc states within one column;
