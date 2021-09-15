@@ -106,9 +106,10 @@ export class BookDetailComponent implements OnInit, OnDestroy {
   // It is called by 'delete' button click.
   openDeletionDialog() {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      maxWidth: 640,
       data: {
         title: 'Deletion confirmation',
-        content: `Book with id ${this.book.id} will be fully erased from the database. Please confirm deletion of the book.`,
+        content: `Book with id ${this.book.id} will be fully erased from the database. Exception is when the book has associated checkouts with it. Please confirm deletion of the book.`,
       },
     });
 
