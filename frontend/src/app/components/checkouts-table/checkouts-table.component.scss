@@ -1,5 +1,7 @@
 .card {
   max-width: 1024px;
+  // 100vh - toolbar height, card margin and padding
+  min-height: calc(100vh - 35px - 4em - 32px);
   margin: 2em auto;
 }
 
@@ -7,35 +9,13 @@
   position: relative;
 }
 
-.content__spinner-modal {
+.content__progress-bar {
   position: absolute;
-  inset: 0;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgb(255 255 255 / 0.5);
-}
-
-.content__spinner-modal--table {
   top: 56px;
-  bottom: 56px;
 }
 
 table {
   width: 100%;
-  // 100vh - toolbar height, card margin and padding, card title height, pagination height
-  min-height: calc(100vh - 35px - 4em - 32px - 28px - 56px);
-  position: relative;
-}
-
-.table__no-data-modal {
-  position: absolute;
-  inset: 0;
-  top: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 // Use already created by material table classes
@@ -64,7 +44,7 @@ table {
   width: 10%;
 }
 
-.mat-row:hover {
+.mat-row:not(.no-data-row):hover {
   cursor: pointer;
   background-color: rgb(0 0 0 / 0.1);
   transition: background-color 200ms ease-out;

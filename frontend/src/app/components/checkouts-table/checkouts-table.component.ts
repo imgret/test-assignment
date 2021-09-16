@@ -42,6 +42,8 @@ export class CheckoutsTableComponent implements AfterViewInit, OnDestroy {
   ) {}
 
   ngAfterViewInit(): void {
+    this.dataSource.setData([]);
+
     // Rollback to first page on sorting change
     this.subscriptions.push(
       this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0))
