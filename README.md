@@ -64,7 +64,7 @@ If you have any questions, please reach out without hesitation. Best of luck!
   * [x] Book checking out functionality
   * [x] Book returning functionality
 * [x] Implement searching for books using freetext criteria
-* [ ] Implement filtering for books by status
+* [x] Implement filtering for books by status
 * [ ] Implement saving / displaying favorite books for current user (you can use localStorage if you don't want to make back-end changes)
 * [x] Add modal confirmation dialogues when deleting or checking out books
   * [x] For book deletion
