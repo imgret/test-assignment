@@ -18,6 +18,7 @@ import { CheckoutFormComponent } from './components/checkout-form/checkout-form.
 import { BookDetailTableComponent } from './components/book-detail-table/book-detail-table.component';
 import { CheckoutDetailTableComponent } from './components/checkout-detail-table/checkout-detail-table.component';
 import { BookSearchFormComponent } from './components/book-search-form/book-search-form.component';
+import { BookFilterFormComponent } from './components/book-filter-form/book-filter-form.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { BookSearchFormComponent } from './components/book-search-form/book-sear
     BookDetailTableComponent,
     CheckoutDetailTableComponent,
     BookSearchFormComponent,
+    BookFilterFormComponent,
   ],
   imports: [
     BrowserModule,

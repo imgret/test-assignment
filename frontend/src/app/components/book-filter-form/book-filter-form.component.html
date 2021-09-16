@@ -1,0 +1,11 @@
+<form (ngSubmit)="handleSubmit()">
+  <mat-form-field appearance="fill">
+    <mat-label> Status </mat-label>
+    <select matNativeControl name="status" [(ngModel)]="status">
+      <option *ngFor="let status of BOOK_STATUSES" value="{{ status }}">
+        {{ status | titlecase }}
+      </option>
+    </select>
+  </mat-form-field>
+  <button mat-flat-button color="primary" type="submit">Submit</button>
+</form>
