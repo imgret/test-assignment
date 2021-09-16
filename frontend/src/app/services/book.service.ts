@@ -5,6 +5,7 @@ import { Book } from '../models/book';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { RestUtil } from './rest-util';
+import { BookStatus } from '../models/book-status';
 
 @Injectable({
   providedIn: 'root',
@@ -28,6 +29,15 @@ export class BookService {
     const params = RestUtil.buildParamsFromPageRequest(filter).set(
       'term',
       searchTerm
+    );
+    return this.http.get<Page<Book>>(url, { params });
+  }
+
+  getBooksByStatus(status: BookStatus, filter: Partial<PageRequest>) {
+    const url = this.baseUrl + '/getBooks';
+    const params = RestUtil.buildParamsFromPageRequest(filter).set(
+      'status',
+      status
     );
     return this.http.get<Page<Book>>(url, { params });
   }
