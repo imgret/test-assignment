@@ -11,6 +11,11 @@
   justify-content: space-between;
 }
 
+.title__buttons {
+  display: flex;
+  column-gap: 8px;
+}
+
 .card__content {
   position: relative;
 }

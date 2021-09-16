@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { merge, of, OperatorFunction, Subscription } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { Book } from 'src/app/models/book';
+import { BookStatus } from 'src/app/models/book-status';
+import { Page } from 'src/app/models/page';
 import { BookService } from '../../services/book.service';
 import { BooksDataSource } from './books-data-source';
 
@@ -24,6 +26,7 @@ export class BooksTableComponent implements AfterViewInit, OnDestroy {
   booksCount: number = 0;
   isLoadingBooks: boolean = true;
   showAddBook: boolean;
+  showFilterBooks: boolean;
   sortChangeSubscription: Subscription;
   tableUpdateSubscription: Subscription;
 
@@ -53,17 +56,32 @@ export class BooksTableComponent implements AfterViewInit, OnDestroy {
     );
 
     // Get new page from bookService on sorting change or on navigation to next/previous page
+    // and set books from page into dataSource for table.
     this.tableUpdateSubscription = merge(
       this.paginator.page,
       this.sort.sortChange
     )
       .pipe(startWith({}), this.getAllBooks())
-      .subscribe((books) => this.dataSource.setData(books));
+      .subscribe((books) => {
+        this.dataSource.setData(books);
+        this.isLoadingBooks = false;
+      });
   }
 
   ngOnDestroy(): void {
     this.sortChangeSubscription.unsubscribe();
     this.tableUpdateSubscription.unsubscribe();
+  }
+
+  // Pipeable operator, which maps page of books into books list and as side effect updates booksCount state.
+  mapPage(): OperatorFunction<Page<Book>, Book[]> {
+    return (input$) =>
+      input$.pipe(
+        map((page) => {
+          this.booksCount = page.totalElements;
+          return page.content;
+        })
+      );
   }
 
   // I created separate pipeable operator to use in multiple places
@@ -89,11 +107,7 @@ export class BooksTableComponent implements AfterViewInit, OnDestroy {
             .getBooks(filter)
             .pipe(catchError(() => of({ totalElements: 0, content: [] })));
         }),
-        map((page) => {
-          this.isLoadingBooks = false;
-          this.booksCount = page.totalElements;
-          return page.content;
-        })
+        this.mapPage()
       );
   }
 
@@ -102,8 +116,10 @@ export class BooksTableComponent implements AfterViewInit, OnDestroy {
     this.router.navigate(['/books', bookId]);
   }
 
-  // Toggles state showAddBook, which is used to show/hide book creation form
+  // Toggles state showAddBook, which is used to show/hide book creation form.
+  // Also hides book filter form.
   toggleAddBook() {
+    this.showFilterBooks = false;
     this.showAddBook = !this.showAddBook;
   }
 
@@ -114,6 +130,7 @@ export class BooksTableComponent implements AfterViewInit, OnDestroy {
       .pipe(this.getAllBooks())
       .subscribe((books) => {
         this.dataSource.setData(books);
+        this.isLoadingBooks = false;
         this.showAddBook = false;
       });
   }
@@ -134,11 +151,7 @@ export class BooksTableComponent implements AfterViewInit, OnDestroy {
             .getSearchedBooks(searchTerm, filter)
             .pipe(catchError(() => of({ totalElements: 0, content: [] })));
         }),
-        map((page) => {
-          this.isLoadingBooks = false;
-          this.booksCount = page.totalElements;
-          return page.content;
-        })
+        this.mapPage()
       );
   }
 
@@ -157,6 +170,52 @@ export class BooksTableComponent implements AfterViewInit, OnDestroy {
       this.sort.sortChange
     )
       .pipe(startWith({}), getBooks)
-      .subscribe((books) => this.dataSource.setData(books));
+      .subscribe((books) => {
+        this.dataSource.setData(books);
+        this.isLoadingBooks = false;
+      });
+  }
+
+  // Toggles state showFilterBooks, which is used to show/hide book filter form.
+  // Also hides book addition form.
+  toggleFilterBooks() {
+    this.showAddBook = false;
+    this.showFilterBooks = !this.showFilterBooks;
+  }
+
+  // Pipeable operator, which maps received value to books list in alignment with given filter options (currently only status).
+  getFilteredBooks(status: BookStatus): OperatorFunction<unknown, Book[]> {
+    return (input$) =>
+      input$.pipe(
+        switchMap(() => {
+          this.isLoadingBooks = true;
+          const filter = {
+            pageIndex: this.paginator.pageIndex,
+            sort: [
+              { column: this.sort.active, direction: this.sort.direction },
+            ],
+          };
+          return this.bookService
+            .getBooksByStatus(status, filter)
+            .pipe(catchError(() => of({ totalElements: 0, content: [] })));
+        }),
+        this.mapPage()
+      );
+  }
+
+  // Is called when book filter form emits onSubmit event.
+  // Changes books retrieval operator in table's pagination and sorting subscription.
+  filterBooks(status: BookStatus) {
+    this.showFilterBooks = false;
+    this.tableUpdateSubscription.unsubscribe();
+    this.tableUpdateSubscription = merge(
+      this.paginator.page,
+      this.sort.sortChange
+    )
+      .pipe(startWith({}), this.getFilteredBooks(status))
+      .subscribe((books) => {
+        this.dataSource.setData(books);
+        this.isLoadingBooks = false;
+      });
   }
 }

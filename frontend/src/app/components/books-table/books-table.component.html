@@ -1,6 +1,14 @@
 <mat-card class="card mat-elevation-z4">
   <mat-card-title class="card__title">
     <span>Books</span>
+    <div class="title__buttons">
+      <button
+        mat-flat-button
+        color="{{ showFilterBooks ? 'accent' : 'primary' }}"
+        (click)="toggleFilterBooks()"
+      >
+        {{ showFilterBooks ? "Close" : "Filter" }}
+      </button>
     <button
       mat-flat-button
       color="{{ showAddBook ? 'accent' : 'primary' }}"
@@ -8,12 +16,17 @@
     >
       {{ showAddBook ? "Close" : "Add" }}
     </button>
+    </div>
   </mat-card-title>
   <mat-card-content class="card__content">
     <app-book-form
       *ngIf="showAddBook"
       (onSubmit)="addBook($event)"
     ></app-book-form>
+    <app-book-filter-form
+      *ngIf="showFilterBooks"
+      (onSubmit)="filterBooks($event)"
+    ></app-book-filter-form>
     <!-- Can't use *ngIf, because after show->hide->show actions table's rows are not rendered -->
     <div
       class="content__table-container"
