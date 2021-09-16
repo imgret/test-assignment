@@ -58,8 +58,8 @@ export class CheckoutsTableComponent implements AfterViewInit, OnDestroy {
             // because 'borrower' is the column composed from two fields of checkout (borrowerFirstName, borrowerLastName)
             if (this.sort.active === 'borrower') {
               sort = [
-                { column: 'borrowerFirstName', direction: this.sort.direction },
                 { column: 'borrowerLastName', direction: this.sort.direction },
+                { column: 'borrowerFirstName', direction: this.sort.direction },
               ];
             } else {
               sort = [
