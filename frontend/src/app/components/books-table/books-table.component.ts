@@ -50,6 +50,8 @@ export class BooksTableComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     // TODO this observable should emit books taking into consideration pagination, sorting and filtering options.
 
+    this.dataSource.setData([]);
+
     // Rollback to first page on sorting change
     this.sortChangeSubscription = this.sort.sortChange.subscribe(
       () => (this.paginator.pageIndex = 0)

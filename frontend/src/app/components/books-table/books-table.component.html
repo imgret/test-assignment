@@ -2,6 +2,7 @@
   <mat-card-title class="card__title">
     <span>Books</span>
     <div class="title__buttons">
+      <!-- Show/hide book filter form -->
       <button
         mat-flat-button
         color="{{ showFilterBooks ? 'accent' : 'primary' }}"
@@ -9,43 +10,46 @@
       >
         {{ showFilterBooks ? "Close" : "Filter" }}
       </button>
-    <button
-      mat-flat-button
-      color="{{ showAddBook ? 'accent' : 'primary' }}"
-      (click)="toggleAddBook()"
-    >
-      {{ showAddBook ? "Close" : "Add" }}
-    </button>
+
+      <!-- Show/hide book addition form -->
+      <button
+        mat-flat-button
+        color="{{ showAddBook ? 'accent' : 'primary' }}"
+        (click)="toggleAddBook()"
+      >
+        {{ showAddBook ? "Close" : "Add" }}
+      </button>
     </div>
   </mat-card-title>
   <mat-card-content class="card__content">
+    <!-- Book addition form -->
     <app-book-form
       *ngIf="showAddBook"
       (onSubmit)="addBook($event)"
     ></app-book-form>
+
+    <!-- Book filter form -->
     <app-book-filter-form
       *ngIf="showFilterBooks"
       (onSubmit)="filterBooks($event)"
     ></app-book-filter-form>
+
+    <!-- Book search form -->
+    <app-book-search-form
+      *ngIf="!showAddBook && !showFilterBooks"
+      (onSubmit)="searchBooks($event)"
+    ></app-book-search-form>
+
     <!-- Can't use *ngIf, because after show->hide->show actions table's rows are not rendered -->
     <div
       class="content__table-container"
       [ngStyle]="{ display: showAddBook ? 'none' : 'block' }"
     >
-      <!--
-        It was pretty challenging for me to force empty initial table
-        to have some height for pleasing to the eye position of spinner.
-        I tries many variants with % values in min-height, however I ended up with calculated min-height.
-      -->
-      <div
+      <mat-progress-bar
         *ngIf="isLoadingBooks"
-        class="content__spinner-modal content__spinner-modal--table"
-      >
-        <mat-spinner></mat-spinner>
-      </div>
-      <app-book-search-form
-        (onSubmit)="searchBooks($event)"
-      ></app-book-search-form>
+        mode="indeterminate"
+        class="table-container__progress-bar"
+      ></mat-progress-bar>
       <!--
         matSortDisableClear prevents sorting removal from all columns;
         this means that sorting will switch only between asc and desc states within one column;
@@ -100,7 +104,9 @@
           (click)="openBookDetails(book.id)"
         ></tr>
 
-        <div *matNoDataRow class="table__no-data-modal">No data</div>
+        <tr *matNoDataRow class="mat-row no-data-row">
+          <td colspan="5" style="text-align: center">No data</td>
+        </tr>
       </table>
       <mat-paginator [length]="booksCount" [pageSize]="20"></mat-paginator>
     </div>
