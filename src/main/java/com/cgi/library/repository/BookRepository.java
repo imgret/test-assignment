@@ -1,6 +1,7 @@
 package com.cgi.library.repository;
 
 import com.cgi.library.entity.Book;
+import com.cgi.library.model.BookStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -25,4 +26,6 @@ public interface BookRepository extends JpaRepository<Book, UUID> {
     // So I decided to roll back and try another approach.
     @Query("SELECT b from Book b where CONCAT_WS(' ', b.id, b.title, b.author, b.genre, b.year, b.added, b.checkOutCount, b.status, b.dueDate, b.comment) like %:searchTerm%")
     Page<Book> searchFreeText(@Param("searchTerm") String searchTerm, Pageable pageable);
+
+    Page<Book> findByStatus(BookStatus status, Pageable pageable);
 }

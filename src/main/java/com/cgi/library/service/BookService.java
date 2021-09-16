@@ -2,6 +2,7 @@ package com.cgi.library.service;
 
 import com.cgi.library.entity.Book;
 import com.cgi.library.model.BookDTO;
+import com.cgi.library.model.BookStatus;
 import com.cgi.library.repository.BookRepository;
 import com.cgi.library.util.ModelMapperFactory;
 import org.modelmapper.ModelMapper;
@@ -42,5 +43,10 @@ public class BookService {
     public Page<BookDTO> searchFreeText(String searchTerm, Pageable pageable) {
         ModelMapper modelMapper = ModelMapperFactory.getMapper();
         return bookRepository.searchFreeText(searchTerm, pageable).map(book -> modelMapper.map(book, BookDTO.class));
+    }
+
+    public  Page<BookDTO> getBooksByStatus(BookStatus status, Pageable pageable) {
+        ModelMapper modelMapper = ModelMapperFactory.getMapper();
+        return bookRepository.findByStatus(status, pageable).map(book -> modelMapper.map(book, BookDTO.class));
     }
 }
