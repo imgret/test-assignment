@@ -24,7 +24,8 @@ export class BooksTableComponent implements AfterViewInit, OnDestroy {
   booksCount: number = 0;
   isLoadingBooks: boolean = true;
   showAddBook: boolean;
-  subscriptions: Subscription[] = [];
+  sortChangeSubscription: Subscription;
+  tableUpdateSubscription: Subscription;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -47,20 +48,22 @@ export class BooksTableComponent implements AfterViewInit, OnDestroy {
     // TODO this observable should emit books taking into consideration pagination, sorting and filtering options.
 
     // Rollback to first page on sorting change
-    this.subscriptions.push(
-      this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0))
+    this.sortChangeSubscription = this.sort.sortChange.subscribe(
+      () => (this.paginator.pageIndex = 0)
     );
 
     // Get new page from bookService on sorting change or on navigation to next/previous page
-    this.subscriptions.push(
-      merge(this.paginator.page, this.sort.sortChange)
-        .pipe(startWith({}), this.booksMap())
-        .subscribe((books) => this.dataSource.setData(books))
-    );
+    this.tableUpdateSubscription = merge(
+      this.paginator.page,
+      this.sort.sortChange
+    )
+      .pipe(startWith({}), this.getAllBooks())
+      .subscribe((books) => this.dataSource.setData(books));
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+    this.sortChangeSubscription.unsubscribe();
+    this.tableUpdateSubscription.unsubscribe();
   }
 
   // I created separate pipeable operator to use in multiple places
@@ -71,18 +74,19 @@ export class BooksTableComponent implements AfterViewInit, OnDestroy {
   // Also this operator internally manages isLoadingBooks and booksCount states,
   // which are used for showing/hiding spinner modal and setting rows count in table accordingly.
   // Reference: https://stackoverflow.com/a/62896009
-  booksMap(): OperatorFunction<unknown, Book[]> {
+  getAllBooks(): OperatorFunction<unknown, Book[]> {
     return (input$) =>
       input$.pipe(
         switchMap(() => {
           this.isLoadingBooks = true;
+          const filter = {
+            pageIndex: this.paginator.pageIndex,
+            sort: [
+              { column: this.sort.active, direction: this.sort.direction },
+            ],
+          };
           return this.bookService
-            .getBooks({
-              pageIndex: this.paginator.pageIndex,
-              sort: [
-                { column: this.sort.active, direction: this.sort.direction },
-              ],
-            })
+            .getBooks(filter)
             .pipe(catchError(() => of({ totalElements: 0, content: [] })));
         }),
         map((page) => {
@@ -107,14 +111,52 @@ export class BooksTableComponent implements AfterViewInit, OnDestroy {
   addBook(book: Book) {
     this.bookService
       .saveBook(book)
-      .pipe(this.booksMap())
+      .pipe(this.getAllBooks())
       .subscribe((books) => {
         this.dataSource.setData(books);
         this.showAddBook = false;
       });
   }
 
+  // Pipeable operator, which maps received value to books list in alignment with given search term.
+  getSearchedBooks(searchTerm: string): OperatorFunction<unknown, Book[]> {
+    return (input$) =>
+      input$.pipe(
+        switchMap(() => {
+          this.isLoadingBooks = true;
+          const filter = {
+            pageIndex: this.paginator.pageIndex,
+            sort: [
+              { column: this.sort.active, direction: this.sort.direction },
+            ],
+          };
+          return this.bookService
+            .getSearchedBooks(searchTerm, filter)
+            .pipe(catchError(() => of({ totalElements: 0, content: [] })));
+        }),
+        map((page) => {
+          this.isLoadingBooks = false;
+          this.booksCount = page.totalElements;
+          return page.content;
+        })
+      );
+  }
+
+  // Is called when book search form emits onSubmit event.
+  // Changes books retrieval operator in table's pagination and sorting subscription.
+  // In case of empty searchTerm is used getAllBooks operator,
+  // otherwise getSearchedBooks operator is used.
   searchBooks(searchTerm: string) {
-    console.log(searchTerm);
+    this.tableUpdateSubscription.unsubscribe();
+    const getBooks =
+      searchTerm === ''
+        ? this.getAllBooks()
+        : this.getSearchedBooks(searchTerm);
+    this.tableUpdateSubscription = merge(
+      this.paginator.page,
+      this.sort.sortChange
+    )
+      .pipe(startWith({}), getBooks)
+      .subscribe((books) => this.dataSource.setData(books));
   }
 }
