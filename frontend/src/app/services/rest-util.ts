@@ -19,7 +19,7 @@ export class RestUtil {
       sort.forEach(
         ({ column, direction }) =>
           column &&
-          (params = params.set('sort', column + ',' + direction ?? ''))
+          (params = params.append('sort', column + ',' + direction ?? ''))
       );
     }
     return params;
