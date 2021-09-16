@@ -15,6 +15,6 @@ export class BookSearchFormComponent implements OnInit {
   ngOnInit(): void {}
 
   handleSubmit() {
-    if (this.searchTerm) this.onSubmit.emit(this.searchTerm);
+    this.onSubmit.emit(this.searchTerm);
   }
 }
