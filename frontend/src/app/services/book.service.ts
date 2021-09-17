@@ -6,6 +6,10 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { RestUtil } from './rest-util';
 import { BookStatus } from '../models/book-status';
+import { LocalStorageService } from './local-storage.service';
+import { DataStorage } from '../models/data-storage';
+import { map, take } from 'rxjs/operators';
+import { FavoriteBooks } from '../models/favorite-books';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +17,10 @@ import { BookStatus } from '../models/book-status';
 export class BookService {
   private readonly baseUrl = environment.backendUrl + '/api/book';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private localStorage: LocalStorageService
+  ) {}
 
   getBooks(filter: Partial<PageRequest>): Observable<Page<Book>> {
     const url = this.baseUrl + '/getBooks';
@@ -33,7 +40,10 @@ export class BookService {
     return this.http.get<Page<Book>>(url, { params });
   }
 
-  getBooksByStatus(status: BookStatus, filter: Partial<PageRequest>) {
+  getBooksByStatus(
+    status: BookStatus,
+    filter: Partial<PageRequest>
+  ): Observable<Page<Book>> {
     const url = this.baseUrl + '/getBooks';
     const params = RestUtil.buildParamsFromPageRequest(filter).set(
       'status',
@@ -57,5 +67,40 @@ export class BookService {
     const url = this.baseUrl + '/deleteBook';
     const params = new HttpParams().set('bookId', bookId);
     return this.http.delete<void>(url, { params });
+  }
+
+  getFavoriteBooks(): Observable<FavoriteBooks> {
+    return this.localStorage.dataStorage$.pipe(
+      map((data) => data.favoriteBooks)
+    );
+  }
+
+  getFavoriteBook(bookId: string): Observable<Book> {
+    return this.localStorage.dataStorage$.pipe(
+      map((data) => data.favoriteBooks[bookId])
+    );
+  }
+
+  addFavoriteBook(book: Book): void {
+    this.localStorage.dataStorage$.pipe(take(1)).subscribe((data) => {
+      const newFavoriteBooks: FavoriteBooks = {
+        ...data.favoriteBooks,
+      };
+      const newData: DataStorage = { ...data, favoriteBooks: newFavoriteBooks };
+      this.localStorage.setData(newData);
+    });
+  }
+
+  removeFavoriteBook(bookId: string): void {
+    this.localStorage.dataStorage$.pipe(take(1)).subscribe((data) => {
+      const newFavoriteBooks: FavoriteBooks = Object.entries(data.favoriteBooks)
+        .filter(([_bookId]) => bookId !== _bookId)
+        .reduce<FavoriteBooks>((accumulator, [key, value]) => {
+          accumulator[key] = value;
+          return accumulator;
+        }, {});
+      const newData: DataStorage = { ...data, favoriteBooks: newFavoriteBooks };
+      this.localStorage.setData(newData);
+    });
   }
 }
