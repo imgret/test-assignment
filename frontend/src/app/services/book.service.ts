@@ -85,6 +85,7 @@ export class BookService {
     this.localStorage.dataStorage$.pipe(take(1)).subscribe((data) => {
       const newFavoriteBooks: FavoriteBooks = {
         ...data.favoriteBooks,
+        [book.id]: book,
       };
       const newData: DataStorage = { ...data, favoriteBooks: newFavoriteBooks };
       this.localStorage.setData(newData);
