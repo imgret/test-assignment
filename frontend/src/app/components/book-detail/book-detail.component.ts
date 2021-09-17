@@ -53,8 +53,8 @@ export class BookDetailComponent implements OnInit, OnDestroy {
         this.book = book;
         this.favoriteBookSubscription = this.bookService
           .getFavoriteBook(book.id)
-          .subscribe((book) => {
-            this.isFavoriteBook = Boolean(book);
+          .subscribe((favoriteBook) => {
+            this.isFavoriteBook = Boolean(favoriteBook);
           });
       });
   }
