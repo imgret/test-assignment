@@ -12,9 +12,20 @@
   justify-content: space-between;
 }
 
-.title__buttons {
+.title__container {
   display: flex;
   column-gap: 8px;
+  align-items: center;
+}
+
+.star-icon {
+  color: rgb(0 0 0 / 0.1);
+}
+
+// TODO research how to use colors from material theme
+// I would like to use accent color
+.star-icon--active {
+  color: #ffd740;
 }
 
 .card__content {

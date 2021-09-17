@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { BookService } from '../../services/book.service';
 import { Book } from '../../models/book';
 import { OperatorFunction, Subscription, throwError } from 'rxjs';
@@ -17,11 +17,13 @@ import { CheckoutService } from 'src/app/services/checkout.service';
 export class BookDetailComponent implements OnInit, OnDestroy {
   book: Book;
   error: Error;
-  subscription: Subscription;
+  routeSubscription: Subscription;
   isProcessingRequest: boolean;
   showEditBook: boolean;
   showCheckOutBook: boolean;
   checkout: Checkout;
+  isFavoriteBook: boolean;
+  favoriteBookSubscription: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -32,7 +34,10 @@ export class BookDetailComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.subscription = this.route.params
+    // Firstly, get book id from route, then get book by id from book service
+    // and when book is received add it to local state, and subscribe to 'get favorite book' observable
+    // to set isFavoriteBook state
+    this.routeSubscription = this.route.params
       .pipe(map((params) => params.id))
       .pipe(
         switchMap((id) =>
@@ -44,11 +49,19 @@ export class BookDetailComponent implements OnInit, OnDestroy {
           )
         )
       )
-      .subscribe((book) => (this.book = book));
+      .subscribe((book) => {
+        this.book = book;
+        this.favoriteBookSubscription = this.bookService
+          .getFavoriteBook(book.id)
+          .subscribe((book) => {
+            this.isFavoriteBook = Boolean(book);
+          });
+      });
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.routeSubscription.unsubscribe();
+    this.favoriteBookSubscription.unsubscribe();
   }
 
   // Used on submit event from book editing form.
@@ -195,5 +208,13 @@ export class BookDetailComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((canDelete) => {
       if (canDelete) this.checkOutBook(checkout);
     });
+  }
+
+  toggleFavoriteBook() {
+    if (this.isFavoriteBook) {
+      this.bookService.removeFavoriteBook(this.book.id);
+    } else {
+      this.bookService.addFavoriteBook(this.book);
+    }
   }
 }
