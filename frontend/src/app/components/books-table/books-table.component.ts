@@ -92,7 +92,7 @@ export class BooksTableComponent implements AfterViewInit, OnDestroy {
   // makes request to bookService.getBooks and
   // maps received Page<Book> to array of Book[] type.
   // Also this operator internally manages isLoadingBooks and booksCount states,
-  // which are used for showing/hiding spinner modal and setting rows count in table accordingly.
+  // which are used for showing/hiding table's progress bar and setting rows count in table accordingly.
   // Reference: https://stackoverflow.com/a/62896009
   getAllBooks(): OperatorFunction<unknown, Book[]> {
     return (input$) =>
