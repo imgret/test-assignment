@@ -46,6 +46,7 @@
       [dataSource]="dataSource"
       [length]="booksCount"
       [pageSize]="20"
+      [loading]="isLoadingBooks"
       (onRowClick)="openBookDetails($event)"
     ></app-mat-books-table>
   </mat-card-content>
