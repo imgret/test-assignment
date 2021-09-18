@@ -46,9 +46,6 @@ export class BooksTableComponent implements AfterViewInit, OnDestroy {
   // ###### How to track pagination and sort changes simultaneously
   // Use merge to combine multiple observables into one observable
   ngAfterViewInit(): void {
-    // TODO this observable should emit books taking into consideration pagination, sorting and filtering options.
-
-    this.dataSource.setData([]);
     // Rollback to first page on sorting change
     this.sortChangeSubscription = this.booksTable.sort.sortChange.subscribe(
       () => (this.booksTable.paginator.pageIndex = 0)

@@ -41,12 +41,11 @@
     ></app-book-search-form>
 
     <!-- Books table -->
-    <!-- Can't use *ngIf, because after show->hide->show actions table's rows are not rendered -->
     <app-mat-books-table
+      *ngIf="!showAddBook"
       [dataSource]="dataSource"
       [length]="booksCount"
       [pageSize]="20"
-      [ngStyle]="{ display: showAddBook ? 'none' : 'block' }"
       (onRowClick)="openBookDetails($event)"
     ></app-mat-books-table>
   </mat-card-content>
