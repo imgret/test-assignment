@@ -40,75 +40,14 @@
       (onSubmit)="searchBooks($event)"
     ></app-book-search-form>
 
+    <!-- Books table -->
     <!-- Can't use *ngIf, because after show->hide->show actions table's rows are not rendered -->
-    <div
-      class="content__table-container"
+    <app-mat-books-table
+      [dataSource]="dataSource"
+      [length]="booksCount"
+      [pageSize]="20"
       [ngStyle]="{ display: showAddBook ? 'none' : 'block' }"
-    >
-      <mat-progress-bar
-        *ngIf="isLoadingBooks"
-        mode="indeterminate"
-        class="table-container__progress-bar"
-      ></mat-progress-bar>
-      <!--
-        matSortDisableClear prevents sorting removal from all columns;
-        this means that sorting will switch only between asc and desc states within one column;
-        by changing sorting from one column to another,
-        first column's sorting state will be cleared and another's set to asc.
-        matSortActive="title" and matSortDirection="asc" sets initial sorting to 'title' column in asc direction
-      -->
-      <table
-        mat-table
-        [dataSource]="dataSource"
-        matSort
-        matSortActive="title"
-        matSortDirection="asc"
-        matSortDisableClear
-      >
-        <!-- Title column -->
-        <ng-container matColumnDef="title">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
-          <td mat-cell *matCellDef="let book">
-            {{ book.title }}
-          </td>
-        </ng-container>
-
-        <!-- Author column -->
-        <ng-container matColumnDef="author">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Author</th>
-          <td mat-cell *matCellDef="let book">{{ book.author }}</td>
-        </ng-container>
-
-        <!-- Year column -->
-        <ng-container matColumnDef="year">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Year</th>
-          <td mat-cell *matCellDef="let book">{{ book.year }}</td>
-        </ng-container>
-
-        <!-- Genre column -->
-        <ng-container matColumnDef="genre">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Genre</th>
-          <td mat-cell *matCellDef="let book">{{ book.genre }}</td>
-        </ng-container>
-
-        <!-- Status column -->
-        <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
-          <td mat-cell *matCellDef="let book">{{ book.status }}</td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr
-          mat-row
-          *matRowDef="let book; columns: displayedColumns"
-          (click)="openBookDetails(book.id)"
-        ></tr>
-
-        <tr *matNoDataRow class="mat-row no-data-row">
-          <td colspan="5" style="text-align: center">No data</td>
-        </tr>
-      </table>
-      <mat-paginator [length]="booksCount" [pageSize]="20"></mat-paginator>
-    </div>
+      (onRowClick)="openBookDetails($event)"
+    ></app-mat-books-table>
   </mat-card-content>
 </mat-card>

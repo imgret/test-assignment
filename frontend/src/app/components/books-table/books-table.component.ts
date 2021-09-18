@@ -1,6 +1,4 @@
 import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { merge, of, OperatorFunction, Subscription } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
@@ -8,7 +6,8 @@ import { Book } from 'src/app/models/book';
 import { BookStatus } from 'src/app/models/book-status';
 import { Page } from 'src/app/models/page';
 import { BookService } from '../../services/book.service';
-import { BooksDataSource } from './books-data-source';
+import { BooksDataSource } from '../mat-books-table/books-data-source';
+import { MatBooksTableComponent } from '../mat-books-table/mat-books-table.component';
 
 /**
  * Books table component
@@ -30,8 +29,7 @@ export class BooksTableComponent implements AfterViewInit, OnDestroy {
   sortChangeSubscription: Subscription;
   tableUpdateSubscription: Subscription;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatBooksTableComponent) booksTable: MatBooksTableComponent;
 
   constructor(private bookService: BookService, private router: Router) {}
 
@@ -51,17 +49,16 @@ export class BooksTableComponent implements AfterViewInit, OnDestroy {
     // TODO this observable should emit books taking into consideration pagination, sorting and filtering options.
 
     this.dataSource.setData([]);
-
     // Rollback to first page on sorting change
-    this.sortChangeSubscription = this.sort.sortChange.subscribe(
-      () => (this.paginator.pageIndex = 0)
+    this.sortChangeSubscription = this.booksTable.sort.sortChange.subscribe(
+      () => (this.booksTable.paginator.pageIndex = 0)
     );
 
     // Get new page from bookService on sorting change or on navigation to next/previous page
     // and set books from page into dataSource for table.
     this.tableUpdateSubscription = merge(
-      this.paginator.page,
-      this.sort.sortChange
+      this.booksTable.paginator.page,
+      this.booksTable.sort.sortChange
     )
       .pipe(startWith({}), this.getAllBooks())
       .subscribe((books) => {
@@ -100,9 +97,12 @@ export class BooksTableComponent implements AfterViewInit, OnDestroy {
         switchMap(() => {
           this.isLoadingBooks = true;
           const filter = {
-            pageIndex: this.paginator.pageIndex,
+            pageIndex: this.booksTable.paginator.pageIndex,
             sort: [
-              { column: this.sort.active, direction: this.sort.direction },
+              {
+                column: this.booksTable.sort.active,
+                direction: this.booksTable.sort.direction,
+              },
             ],
           };
           return this.bookService
@@ -144,9 +144,12 @@ export class BooksTableComponent implements AfterViewInit, OnDestroy {
         switchMap(() => {
           this.isLoadingBooks = true;
           const filter = {
-            pageIndex: this.paginator.pageIndex,
+            pageIndex: this.booksTable.paginator.pageIndex,
             sort: [
-              { column: this.sort.active, direction: this.sort.direction },
+              {
+                column: this.booksTable.sort.active,
+                direction: this.booksTable.sort.direction,
+              },
             ],
           };
           return this.bookService
@@ -168,8 +171,8 @@ export class BooksTableComponent implements AfterViewInit, OnDestroy {
         ? this.getAllBooks()
         : this.getSearchedBooks(searchTerm);
     this.tableUpdateSubscription = merge(
-      this.paginator.page,
-      this.sort.sortChange
+      this.booksTable.paginator.page,
+      this.booksTable.sort.sortChange
     )
       .pipe(startWith({}), getBooks)
       .subscribe((books) => {
@@ -192,9 +195,12 @@ export class BooksTableComponent implements AfterViewInit, OnDestroy {
         switchMap(() => {
           this.isLoadingBooks = true;
           const filter = {
-            pageIndex: this.paginator.pageIndex,
+            pageIndex: this.booksTable.paginator.pageIndex,
             sort: [
-              { column: this.sort.active, direction: this.sort.direction },
+              {
+                column: this.booksTable.sort.active,
+                direction: this.booksTable.sort.direction,
+              },
             ],
           };
           return this.bookService
@@ -211,8 +217,8 @@ export class BooksTableComponent implements AfterViewInit, OnDestroy {
     this.showFilterBooks = false;
     this.tableUpdateSubscription.unsubscribe();
     this.tableUpdateSubscription = merge(
-      this.paginator.page,
-      this.sort.sortChange
+      this.booksTable.paginator.page,
+      this.booksTable.sort.sortChange
     )
       .pipe(startWith({}), this.getFilteredBooks(status))
       .subscribe((books) => {
