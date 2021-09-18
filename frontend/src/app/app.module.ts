@@ -20,6 +20,7 @@ import { CheckoutDetailTableComponent } from './components/checkout-detail-table
 import { BookSearchFormComponent } from './components/book-search-form/book-search-form.component';
 import { BookFilterFormComponent } from './components/book-filter-form/book-filter-form.component';
 import { MatBooksTableComponent } from './components/mat-books-table/mat-books-table.component';
+import { FavoriteBooksComponent } from './components/favorite-books/favorite-books.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { MatBooksTableComponent } from './components/mat-books-table/mat-books-t
     BookSearchFormComponent,
     BookFilterFormComponent,
     MatBooksTableComponent,
+    FavoriteBooksComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,11 @@
+<mat-card class="card mat-elevation-z4">
+  <mat-card-title>Favorite books</mat-card-title>
+  <mat-card-content>
+    <app-mat-books-table
+      [dataSource]="dataSource"
+      [length]="booksCount"
+      [pageSize]="pageSize"
+      (onRowClick)="openBookDetails($event)"
+    ></app-mat-books-table>
+  </mat-card-content>
+</mat-card>
