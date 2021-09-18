@@ -1,11 +1,11 @@
 import { DataSource } from '@angular/cdk/collections';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Checkout } from 'src/app/models/checkout';
 
 // Material table component uses this as source of data for rows depiction.
 // Reference https://material.angular.io/components/table/examples#table-dynamic-observable-data
 export class CheckoutsDataSource extends DataSource<Checkout> {
-  private _dataStream = new Subject<Checkout[]>();
+  private _dataStream = new BehaviorSubject<Checkout[]>([]);
 
   constructor(initialData: Checkout[]) {
     super();
