@@ -1,5 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Checkout } from 'src/app/models/checkout';
@@ -18,15 +23,20 @@ import { BookService } from 'src/app/services/book.service';
   styleUrls: ['./checkout-form.component.scss'],
 })
 export class CheckoutFormComponent implements OnInit {
-  checkoutForm = this.formBuilder.group({
-    id: [],
-    borrowerFirstName: ['', Validators.required],
-    borrowerLastName: ['', Validators.required],
-    borrowedBookId: ['', Validators.required],
-    checkedOutDate: [null, Validators.required],
-    dueDate: [null, Validators.required],
-    returnedDate: [],
-  });
+  checkoutForm = this.formBuilder.group(
+    {
+      id: [],
+      borrowerFirstName: ['', Validators.required],
+      borrowerLastName: ['', Validators.required],
+      borrowedBookId: ['', Validators.required],
+      checkedOutDate: [null, Validators.required],
+      dueDate: [null, Validators.required],
+      returnedDate: [],
+    },
+    {
+      validators: this.validateDates,
+    }
+  );
 
   // Used for setting up initial form state
   @Input() checkout: Checkout | undefined;
@@ -88,5 +98,20 @@ export class CheckoutFormComponent implements OnInit {
       }
       if (!this.checkout) this.checkoutForm.reset();
     }
+  }
+
+  // Validate dates from form.
+  // Check that due date and return date are after checkout date.
+  validateDates(control: AbstractControl): ValidationErrors | null {
+    const checkedOutDate = new Date(control.get('checkedOutDate').value);
+    const dueDate = new Date(control.get('dueDate').value);
+    const returnedDate = new Date(control.get('returnedDate').value);
+    if (checkedOutDate > dueDate) {
+      control.get('dueDate').setErrors({ invalidDate: true });
+    }
+    if (checkedOutDate > returnedDate) {
+      control.get('returnedDate').setErrors({ invalidDate: true });
+    }
+    return null;
   }
 }
