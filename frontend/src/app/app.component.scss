@@ -1,3 +1,12 @@
-.mat-toolbar-row, .mat-toolbar-single-row {
+.mat-toolbar-row,
+.mat-toolbar-single-row {
   height: 35px;
+}
+
+.router-container {
+  max-width: 1024px;
+  // 100vh - toolbar height, margin
+  min-height: calc(100vh - 35px - 4em);
+  margin: 2em auto;
+  border-radius: 4px;
 }

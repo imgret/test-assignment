@@ -1,7 +1,7 @@
-<mat-card class="card mat-elevation-z4">
+<mat-card class="card mat-elevation-z0">
   <ng-container *ngIf="book; else loadingOrError">
-    <mat-card-title class="card__title">
-      <div class="title__container">
+    <mat-card-title class="card-title">
+      <div class="container">
         <span>Book</span>
 
         <!-- Add/remove book to/from favorites -->
@@ -14,7 +14,7 @@
         </button>
       </div>
 
-      <div class="title__container">
+      <div class="container">
         <!-- Show/hide book checkout form -->
         <button
           *ngIf="book.status === 'AVAILABLE'"
@@ -45,7 +45,7 @@
         </button>
       </div>
     </mat-card-title>
-    <mat-card-content class="card__content">
+    <mat-card-content class="card-content">
       <!-- Error alert message -->
       <ng-container *ngIf="error">
         <div class="alert">

@@ -6,7 +6,9 @@
 </mat-toolbar>
 
 <!-- Body -->
-<router-outlet></router-outlet>
+<div class="router-container mat-elevation-z4">
+  <router-outlet></router-outlet>
+</div>
 
 <!-- Due to height: 100% in html and body tags, required by material
      bottom margin in component rendered by router-outlet was not shown.

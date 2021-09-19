@@ -1,23 +1,20 @@
 .card {
   position: relative;
-  max-width: 1024px;
-  // 100vh - toolbar height, card margin and padding
-  min-height: calc(100vh - 35px - 4em - 32px);
-  margin: 2em auto;
+  min-height: 100px;
 }
 
-.card__title {
+.card-title {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.title__buttons {
+.container {
   display: flex;
   column-gap: 8px;
 }
 
-.card__content {
+.card-content {
   display: flex;
   flex-direction: column;
   row-gap: 1em;

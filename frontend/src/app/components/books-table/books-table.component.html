@@ -1,7 +1,7 @@
-<mat-card class="card mat-elevation-z4">
-  <mat-card-title class="card__title">
+<mat-card class="mat-elevation-z0">
+  <mat-card-title class="card-title">
     <span>Books</span>
-    <div class="title__buttons">
+    <div class="container">
       <!-- Show/hide book filter form -->
       <button
         mat-flat-button
@@ -21,7 +21,7 @@
       </button>
     </div>
   </mat-card-title>
-  <mat-card-content class="card__content">
+  <mat-card-content class="card-content">
     <!-- Book addition form -->
     <app-book-form
       *ngIf="showAddBook"
