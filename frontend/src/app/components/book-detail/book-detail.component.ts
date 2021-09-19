@@ -197,6 +197,7 @@ export class BookDetailComponent implements OnInit, OnDestroy {
   // It is called by submission of book checkout form.
   openCheckoutDialog(checkout: Checkout) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      maxWidth: 640,
       data: {
         title: 'Checkout confirmation',
         content: `Book with id ${this.book.id} will be marked as borrowed and
