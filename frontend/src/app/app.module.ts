@@ -21,6 +21,7 @@ import { BookSearchFormComponent } from './components/book-search-form/book-sear
 import { BookFilterFormComponent } from './components/book-filter-form/book-filter-form.component';
 import { MatBooksTableComponent } from './components/mat-books-table/mat-books-table.component';
 import { FavoriteBooksComponent } from './components/favorite-books/favorite-books.component';
+import { LateCheckoutsComponent } from './components/late-checkouts/late-checkouts.component';
 import { MatCheckoutsTableComponent } from './components/mat-checkouts-table/mat-checkouts-table.component';
 
 @NgModule({
@@ -40,6 +41,7 @@ import { MatCheckoutsTableComponent } from './components/mat-checkouts-table/mat
     BookFilterFormComponent,
     MatBooksTableComponent,
     FavoriteBooksComponent,
+    LateCheckoutsComponent,
     MatCheckoutsTableComponent,
   ],
   imports: [

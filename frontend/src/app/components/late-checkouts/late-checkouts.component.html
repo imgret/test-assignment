@@ -1,0 +1,12 @@
+<mat-card class="mat-elevation-z0">
+  <mat-card-title>Late checkouts</mat-card-title>
+  <mat-card-content>
+    <app-mat-checkouts-table
+      [dataSource]="dataSource"
+      [length]="checkoutsCount"
+      [pageSize]="pageSize"
+      [loading]="isLoadingCheckouts"
+      (onRowClick)="openCheckoutDetails($event)"
+    ></app-mat-checkouts-table>
+  </mat-card-content>
+</mat-card>
