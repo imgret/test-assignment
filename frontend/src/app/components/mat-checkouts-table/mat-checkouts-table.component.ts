@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { CheckoutsDataSource } from '../checkouts-table/checkouts-data-source';
+import { CheckoutsDataSource } from './checkouts-data-source';
 
 @Component({
   selector: 'app-mat-checkouts-table',

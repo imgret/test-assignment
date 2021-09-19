@@ -5,7 +5,7 @@ import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { PageRequest } from 'src/app/models/page';
 import { CheckoutService } from 'src/app/services/checkout.service';
 import { MatCheckoutsTableComponent } from '../mat-checkouts-table/mat-checkouts-table.component';
-import { CheckoutsDataSource } from './checkouts-data-source';
+import { CheckoutsDataSource } from '../mat-checkouts-table/checkouts-data-source';
 
 /**
  * Checkouts table component
