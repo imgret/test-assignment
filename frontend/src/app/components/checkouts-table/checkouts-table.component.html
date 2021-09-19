@@ -1,79 +1,12 @@
 <mat-card class="mat-elevation-z0">
   <mat-card-title>Checkouts</mat-card-title>
-  <mat-card-content class="card-content">
-    <mat-progress-bar
-      *ngIf="isLoadingCheckouts"
-      mode="indeterminate"
-      class="progress-bar"
-    ></mat-progress-bar>
-
-    <table
-      mat-table
+  <mat-card-content>
+    <app-mat-checkouts-table
       [dataSource]="dataSource"
-      matSort
-      matSortActive="borrowedBookTitle"
-      matSortDirection="asc"
-      matSortDisableClear
-    >
-      <!-- Book title column -->
-      <ng-container matColumnDef="borrowedBookTitle">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Book title</th>
-        <td mat-cell *matCellDef="let checkout">
-          {{ checkout.borrowedBook.title }}
-        </td>
-      </ng-container>
-
-      <!-- Book author column -->
-      <ng-container matColumnDef="borrowedBookAuthor">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Book author</th>
-        <td mat-cell *matCellDef="let checkout">
-          {{ checkout.borrowedBook.author }}
-        </td>
-      </ng-container>
-
-      <!-- Borrower column -->
-      <ng-container matColumnDef="borrower">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Borrower</th>
-        <td mat-cell *matCellDef="let checkout">
-          {{ checkout.borrowerFirstName + " " + checkout.borrowerLastName }}
-        </td>
-      </ng-container>
-
-      <!-- Checked out date column -->
-      <ng-container matColumnDef="checkedOutDate">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Checked out</th>
-        <td mat-cell *matCellDef="let checkout">
-          {{ checkout.checkedOutDate }}
-        </td>
-      </ng-container>
-
-      <!-- Due date column -->
-      <ng-container matColumnDef="dueDate">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Due date</th>
-        <td mat-cell *matCellDef="let checkout">
-          {{ checkout.dueDate }}
-        </td>
-      </ng-container>
-
-      <!-- Returned date column -->
-      <ng-container matColumnDef="returnedDate">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Returned</th>
-        <td mat-cell *matCellDef="let checkout">
-          {{ checkout.returnedDate }}
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr
-        mat-row
-        *matRowDef="let checkout; columns: displayedColumns"
-        (click)="openCheckoutDetails(checkout.id)"
-      ></tr>
-
-      <tr *matNoDataRow class="mat-row no-data-row">
-        <td colspan="5" style="text-align: center">No data</td>
-      </tr>
-    </table>
-    <mat-paginator [length]="checkoutsCount" [pageSize]="20"></mat-paginator>
+      [length]="checkoutsCount"
+      [pageSize]="20"
+      [loading]="isLoadingCheckouts"
+      (onRowClick)="openCheckoutDetails($event)"
+    ></app-mat-checkouts-table>
   </mat-card-content>
 </mat-card>
