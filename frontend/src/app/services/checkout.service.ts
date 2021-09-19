@@ -36,4 +36,10 @@ export class CheckoutService {
     const params = new HttpParams().set('checkOutId', checkOutId);
     return this.http.delete<void>(url, { params });
   }
+
+  getLateCheckouts(filter: Partial<PageRequest>): Observable<Page<Checkout>> {
+    const url = this.baseUrl + '/getCheckouts';
+    const params = RestUtil.buildParamsFromPageRequest(filter).set('late', '');
+    return this.http.get<Page<Checkout>>(url, { params });
+  }
 }
