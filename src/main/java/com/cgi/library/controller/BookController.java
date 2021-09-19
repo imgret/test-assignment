@@ -3,13 +3,14 @@ package com.cgi.library.controller;
 import com.cgi.library.model.BookDTO;
 import com.cgi.library.model.BookStatus;
 import com.cgi.library.service.BookService;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -21,7 +22,8 @@ public class BookController {
     private BookService bookService;
 
     @GetMapping(value = "getBooks")
-    public ResponseEntity<Page<BookDTO>> getBooks(@RequestParam(value = "status") Optional<BookStatus> status, Pageable pageable) {
+    public ResponseEntity<Page<BookDTO>> getBooks(@RequestParam(value = "status") Optional<BookStatus> status,
+                                                  Pageable pageable) {
         if (status.isEmpty()) {
             return ResponseEntity.ok(bookService.getBooks(pageable));
         } else {
@@ -42,8 +44,17 @@ public class BookController {
 
     @DeleteMapping(value = "deleteBook")
     public ResponseEntity<String> deleteBook(@RequestParam(value = "bookId") UUID bookId) {
-        bookService.deleteBook(bookId);
-        return ResponseEntity.ok("");
+        try {
+            bookService.deleteBook(bookId);
+            return ResponseEntity.ok("");
+        } catch (Exception exception) {
+            if (exception.getCause() instanceof ConstraintViolationException) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(
+                        "Cannot delete book, which has connected checkouts");
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exception.getMessage());
+            }
+        }
     }
 
     @GetMapping(value = "search")
