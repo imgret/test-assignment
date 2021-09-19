@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -18,8 +19,12 @@ public class CheckOutController {
     private CheckOutService checkOutService;
 
     @GetMapping(value = "getCheckouts")
-    public ResponseEntity<Page<CheckOutDTO>> getCheckOuts(Pageable pageable) {
-        return ResponseEntity.ok(checkOutService.getCheckOuts(pageable));
+    public ResponseEntity<Page<CheckOutDTO>> getCheckOuts(@RequestParam(value = "late") Optional<String> late, Pageable pageable) {
+        if (late.isEmpty()) {
+            return ResponseEntity.ok(checkOutService.getCheckOuts(pageable));
+        } else {
+            return ResponseEntity.ok(checkOutService.getLateCheckOuts(pageable));
+        }
     }
 
     @GetMapping(value = "getCheckout")

@@ -1,6 +1,8 @@
 package com.cgi.library.service;
 
 import com.cgi.library.entity.CheckOut;
+import com.cgi.library.model.BookDTO;
+import com.cgi.library.model.BookStatus;
 import com.cgi.library.model.CheckOutDTO;
 import com.cgi.library.repository.CheckOutRepository;
 import com.cgi.library.util.ModelMapperFactory;
@@ -10,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Service
@@ -34,5 +37,11 @@ public class CheckOutService {
 
     public void deleteCheckOut(UUID checkOutId) {
         checkOutRepository.deleteById(checkOutId);
+    }
+
+    public Page<CheckOutDTO> getLateCheckOuts(Pageable pageable) {
+        ModelMapper modelMapper = ModelMapperFactory.getMapper();
+        return checkOutRepository.findByDueDateBefore(LocalDate.now(), pageable).map(checkOut -> modelMapper.map(checkOut,
+                CheckOutDTO.class));
     }
 }
