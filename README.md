@@ -69,7 +69,7 @@ If you have any questions, please reach out without hesitation. Best of luck!
 * [x] Add modal confirmation dialogues when deleting or checking out books
   * [x] For book deletion
   * [x] For book checkout
-* [ ] Implement a user-friendly way to display late checkouts
+* [x] Implement a user-friendly way to display late checkouts
 
 #####Bonus tasks:
 * Implement advanced search form for books, where user can specify and combine different criterias (title, author year etc)
