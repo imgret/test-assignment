@@ -41,8 +41,13 @@
     ></app-book-search-form>
 
     <!-- Books table -->
+    <!-- 
+      ngStyle with 'display' property is used instead of *ngIf, because
+      *ngIf unmounts table, but it is needed mounted all time to access it's paginator and sort refs.
+      Display property with value none leaves component mounted and hidden at the same time.
+    -->
     <app-mat-books-table
-      *ngIf="!showAddBook"
+      [ngStyle]="{ display: showAddBook ? 'none' : 'initial' }"
       [dataSource]="dataSource"
       [length]="booksCount"
       [pageSize]="20"
