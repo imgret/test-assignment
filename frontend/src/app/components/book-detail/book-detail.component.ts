@@ -60,8 +60,8 @@ export class BookDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.routeSubscription.unsubscribe();
-    this.favoriteBookSubscription.unsubscribe();
+    this.routeSubscription?.unsubscribe();
+    this.favoriteBookSubscription?.unsubscribe();
   }
 
   // Used on submit event from book editing form.

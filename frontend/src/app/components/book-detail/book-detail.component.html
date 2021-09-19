@@ -47,11 +47,7 @@
     </mat-card-title>
     <mat-card-content class="card-content">
       <!-- Error alert message -->
-      <ng-container *ngIf="error">
-        <div class="alert">
-          {{ error.error.message || error.error.error || error.message }}
-        </div>
-      </ng-container>
+      <app-error-alert *ngIf="error" [error]="error"></app-error-alert>
 
       <!-- Book editing form -->
       <app-book-form
@@ -83,12 +79,13 @@
     I decided to show message from Error instead of leaving spinner to stay indefinitely and confuse a user.
    -->
   <ng-template #loadingOrError>
-    <ng-container *ngIf="error; else loading">
-      <div class="alert">
-        {{ error.error.message || error.error.error || error.message }}
-      </div>
-    </ng-container>
+    <!-- Error alert message -->
+    <app-error-alert
+      *ngIf="error; else loading"
+      [error]="error"
+    ></app-error-alert>
 
+    <!-- Spinner modal -->
     <ng-template #loading>
       <div class="spinner-modal">
         <mat-spinner></mat-spinner>

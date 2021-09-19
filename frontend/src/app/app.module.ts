@@ -23,6 +23,7 @@ import { MatBooksTableComponent } from './components/mat-books-table/mat-books-t
 import { FavoriteBooksComponent } from './components/favorite-books/favorite-books.component';
 import { LateCheckoutsComponent } from './components/late-checkouts/late-checkouts.component';
 import { MatCheckoutsTableComponent } from './components/mat-checkouts-table/mat-checkouts-table.component';
+import { ErrorAlertComponent } from './components/error-alert/error-alert.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { MatCheckoutsTableComponent } from './components/mat-checkouts-table/mat
     FavoriteBooksComponent,
     LateCheckoutsComponent,
     MatCheckoutsTableComponent,
+    ErrorAlertComponent,
   ],
   imports: [
     BrowserModule,

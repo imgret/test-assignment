@@ -53,7 +53,7 @@ export class CheckoutDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.subscription?.unsubscribe();
   }
 
   // Used on submit event from checkout editing form.
